@@ -2,6 +2,7 @@ import Hero from "./components/sections/Hero";
 import AboutMe from "./components/sections/AboutMe";
 import Projects from "./components/sections/Projects";
 import Contact from "./components/sections/Contact";
+import Footer from "./components/sections/Footer";
 import Navigation from "./components/Navigation";
 
 export default function Home() {
@@ -12,6 +13,7 @@ export default function Home() {
       <AboutMe />
       <Projects />
       <Contact />
+      <Footer />
     </div>
   );
 }
@@ -21,6 +23,6 @@ const styles = {
     display: 'flex',
     flexDirection: 'column' as const,
     minHeight: '100vh',
-    paddingLeft: '4rem',
+    padding: '0 4rem',
   },
 };

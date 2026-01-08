@@ -78,7 +78,9 @@ const styles = {
   },
   leftBox: {
     backgroundColor: 'white',
-    border: '2px solid #451eff',
+    borderWidth: '2px',
+    borderStyle: 'solid',
+    borderColor: '#451eff',
     padding: '1.5rem',
     borderRadius: '4px',
     display: 'inline-block' as const,
@@ -86,7 +88,9 @@ const styles = {
   },
   rightBox: {
     backgroundColor: 'white',
-    border: '2px solid #451eff',
+    borderWidth: '2px',
+    borderStyle: 'solid',
+    borderColor: '#451eff',
     padding: '1.5rem',
     borderRadius: '4px',
     position: 'absolute' as const,
