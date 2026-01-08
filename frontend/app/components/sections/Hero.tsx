@@ -57,7 +57,7 @@ export default function Hero() {
     // Initial Glitch-Animation
     const runInitialGlitch = () => {
       let glitchStep = 0;
-      const totalSteps = 14;
+      const totalSteps = 6;
 
       const glitchInterval = setInterval(() => {
         glitchContainer.innerHTML = "";
@@ -76,7 +76,7 @@ export default function Hero() {
           // Übergangs-Glitches mit Buchstaben-Flackern
           let transitionGlitches = 0;
           const transitionInterval = setInterval(() => {
-            if (transitionGlitches >= 12) {
+            if (transitionGlitches >= 5) {
               clearInterval(transitionInterval);
               glitchContainer.innerHTML = "";
               return;
@@ -183,110 +183,13 @@ export default function Hero() {
         }
 
         glitchStep++;
-      }, 140);
+      }, 160);
     };
 
     // Starte initiale Glitch-Animation nach kurzer Verzögerung
     setTimeout(runInitialGlitch, 300);
 
-    // Dauerhafter Glitch-Effekt
-    let glitchTimeout: NodeJS.Timeout;
-    let letterFlickerTimeout: NodeJS.Timeout;
-    let isRunning = true;
-    
-    const scheduleRandomGlitch = () => {
-      if (!isRunning) return;
-      
-      const delay = Math.random() * 1200 + 600;
-      glitchTimeout = setTimeout(() => {
-        if (!glitchContainerRef.current || !isRunning) return;
-        
-        const miniGlitchCount = Math.floor(Math.random() * 3) + 2;
-        glitchContainer.innerHTML = "";
-
-        for (let i = 0; i < miniGlitchCount; i++) {
-          const glitchRect = document.createElement("div");
-          const width = Math.random() * 35 + 10;
-          const height = Math.random() * 18 + 5;
-          const top = Math.random() * 100;
-          const left = Math.random() * (100 - width);
-          const isBlue = Math.random() > 0.5;
-          const color = isBlue ? "rgba(69, 30, 255, 0.5)" : "rgba(200, 200, 200, 0.4)";
-
-          glitchRect.style.position = "absolute";
-          glitchRect.style.width = `${width}%`;
-          glitchRect.style.height = `${height}%`;
-          glitchRect.style.top = `${top}%`;
-          glitchRect.style.left = `${left}%`;
-          glitchRect.style.backgroundColor = color;
-
-          glitchContainer.appendChild(glitchRect);
-        }
-
-        // Buchstaben flackern - jetzt mit direktem Zugriff
-        const currentSpans = allLetterSpansRef.current;
-        if (currentSpans.length > 0 && Math.random() > 0.3) {
-          const letterCount = Math.floor(Math.random() * 3) + 1;
-          
-          for (let i = 0; i < letterCount; i++) {
-            const randomIdx = Math.floor(Math.random() * currentSpans.length);
-            const span = currentSpans[randomIdx];
-            if (span) {
-              span.style.opacity = "0";
-              setTimeout(() => {
-                if (span) span.style.opacity = "1";
-              }, Math.random() * 100 + 50);
-            }
-          }
-        }
-
-        setTimeout(() => {
-          if (glitchContainerRef.current) {
-            glitchContainer.innerHTML = "";
-          }
-          scheduleRandomGlitch();
-        }, Math.random() * 120 + 80);
-      }, delay);
-    };
-
-    // Separater Buchstaben-Flicker (unabhängig von Rechteck-Glitches)
-    const scheduleLetterFlicker = () => {
-      if (!isRunning) return;
-      
-      const delay = Math.random() * 2000 + 1000;
-      letterFlickerTimeout = setTimeout(() => {
-        const currentSpans = allLetterSpansRef.current;
-        if (currentSpans.length > 0 && isRunning) {
-          const randomIdx = Math.floor(Math.random() * currentSpans.length);
-          const span = currentSpans[randomIdx];
-          if (span) {
-            // Schnelles Flackern
-            span.style.opacity = "0";
-            setTimeout(() => {
-              if (span) span.style.opacity = "1";
-              setTimeout(() => {
-                if (span && Math.random() > 0.5) {
-                  span.style.opacity = "0";
-                  setTimeout(() => {
-                    if (span) span.style.opacity = "1";
-                  }, 40);
-                }
-              }, 60);
-            }, 50);
-          }
-        }
-        scheduleLetterFlicker();
-      }, delay);
-    };
-
-    // Starte dauerhaften Glitch nach dem initialen Glitch
-    setTimeout(scheduleRandomGlitch, 2800);
-    setTimeout(scheduleLetterFlicker, 3500);
-
     return () => {
-      isRunning = false;
-      clearTimeout(glitchTimeout);
-      clearTimeout(letterFlickerTimeout);
       if (glitchContainerRef.current) {
         glitchContainerRef.current.remove();
         glitchContainerRef.current = null;
