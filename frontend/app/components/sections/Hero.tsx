@@ -198,7 +198,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section ref={sectionRef} style={styles.section}>
+    <section id="hero" ref={sectionRef} style={styles.section}>
       <div style={styles.content}>
         <h1 style={styles.title}>
           <span ref={line1Ref}>MIRIAM</span>

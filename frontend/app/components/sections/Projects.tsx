@@ -6,7 +6,7 @@ export default function Projects() {
   ];
 
   return (
-    <section style={styles.section}>
+    <section id="projects" style={styles.section}>
       <div style={styles.content}>
         <h2 style={styles.title}>Projects</h2>
         <div style={styles.projectsGrid}>

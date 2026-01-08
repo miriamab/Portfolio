@@ -22,7 +22,7 @@ export default function AboutMe() {
   };
 
   return (
-    <section style={styles.section}>
+    <section id="about" style={styles.section}>
       <div style={styles.content}>
         <h2 style={styles.title}>About Me</h2>
         <div style={styles.boxesContainer}>
