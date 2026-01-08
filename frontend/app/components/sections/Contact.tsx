@@ -120,7 +120,7 @@ export default function Contact() {
               onChange={handleChange}
               style={formData.email && !isValidEmail(formData.email) ? { ...styles.input, ...styles.inputInvalid } : styles.input}
               required
-              aria-invalid={formData.email ? (!isValidEmail(formData.email)).toString() : 'false'}
+              aria-invalid={formData.email ? !isValidEmail(formData.email) : false}
               aria-describedby="email-error"
             />
             {formData.email && !isValidEmail(formData.email) && (
