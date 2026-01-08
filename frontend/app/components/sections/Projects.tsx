@@ -37,10 +37,12 @@ const styles = {
     width: '100%',
   },
   title: {
-    fontSize: '2.5rem',
-    fontWeight: 700,
-    marginBottom: '3rem',
-    letterSpacing: '-0.02em',
+    fontSize: 'clamp(2rem, 10vw, 3.5rem)',
+    fontWeight: 400,
+    letterSpacing: '0.02em',
+    fontFamily: 'Gasoek One',
+    marginBottom: '1rem',
+    textAlign: 'left' as const,
   },
   projectsGrid: {
     display: 'grid' as const,

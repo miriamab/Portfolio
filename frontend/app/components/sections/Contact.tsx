@@ -30,15 +30,16 @@ const styles = {
     maxWidth: '800px',
   },
   title: {
-    fontSize: '2.5rem',
-    fontWeight: 700,
-    marginBottom: '1.5rem',
-    letterSpacing: '-0.02em',
+    fontSize: 'clamp(2rem, 10vw, 3.5rem)',
+    fontWeight: 400,
+    letterSpacing: '0.02em',
+    fontFamily: 'Gasoek One',
+    marginBottom: '1rem',
+    textAlign: 'left' as const,
   },
   description: {
     fontSize: '1.1rem',
     marginBottom: '2rem',
-    opacity: 0.9,
   },
   contactLinks: {
     display: 'flex' as const,
