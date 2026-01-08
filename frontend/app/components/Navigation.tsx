@@ -99,7 +99,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     left: '2rem',
     top: 0,
     bottom: 0,
-    zIndex: 1000,
+    zIndex: 9998,
     width: '12px',
   },
   arrow: {

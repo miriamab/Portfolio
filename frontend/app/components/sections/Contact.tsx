@@ -24,7 +24,7 @@ const styles = {
     padding: '4rem 2rem',
     color: '#451eff',
     position: 'relative' as const,
-    zIndex: 1,
+    zIndex: 9998,
   },
   content: {
     maxWidth: '800px',
