@@ -26,10 +26,10 @@ export default function AboutMe() {
       <div style={styles.content}>
         <h2 style={styles.title}>About Me</h2>
         <div style={styles.boxesContainer}>
-          <div style={styles.box}>
+          <div style={styles.leftBox}>
             <p style={styles.boxText}>Hi there, my name is Miriam! I am an Informatics and Design student specializing in the intersection of technical logic and user-centered design. With a focus on Python, JavaScript, and Generative AI, I build everything from interactive 3D web environments to intelligent chatbot systems. As an experienced Scrum Master, I combine my development skills with agile leadership to deliver robust, well-designed software solutions.</p>
           </div>
-          <div style={styles.box}>
+          <div style={styles.rightBox}>
             <div style={styles.skillsList}>
               {skills.map((skill, index) => (
                 <div key={index} style={styles.skillItem}>
@@ -47,10 +47,10 @@ export default function AboutMe() {
 
 const styles = {
   section: {
-    minHeight: '100vh',
+    minHeight: 'auto',
     display: 'flex',
     alignItems: 'center',
-    padding: '2rem',
+    padding: '4rem 2rem',
     color: '#451eff',
     position: 'relative' as const,
     zIndex: 1,
@@ -72,26 +72,32 @@ const styles = {
     lineHeight: 1.8,
   },
   boxesContainer: {
-    display: 'flex' as const,
-    gap: '2rem',
+    position: 'relative' as const,
     width: '100%',
-    alignItems: 'stretch' as const,
-    justifyContent: 'space-between' as const,
+    minHeight: '400px',
   },
-  box: {
+  leftBox: {
     backgroundColor: 'white',
     border: '2px solid #451eff',
     padding: '1.5rem',
     borderRadius: '4px',
-    display: 'flex' as const,
-    flexDirection: 'column' as const,
+    display: 'inline-block' as const,
+    width: '30%',
+  },
+  rightBox: {
+    backgroundColor: 'white',
+    border: '2px solid #451eff',
+    padding: '1.5rem',
+    borderRadius: '4px',
+    position: 'absolute' as const,
+    right: 0,
+    top: '180px',
   },
   boxText: {
     fontSize: '1.1rem',
     fontWeight: 400,
     lineHeight: 1.8,
     color: '#451eff',
-    maxWidth: '550px',
   },
   skillsList: {
     display: 'flex' as const,

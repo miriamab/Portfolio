@@ -212,10 +212,10 @@ export default function Hero() {
 
 const styles = {
   section: {
-    minHeight: '100vh',
+    minHeight: 'auto',
     display: 'flex',
     alignItems: 'center',
-    padding: '0',
+    padding: '4rem 0',
     color: '#451eff',
     position: 'relative' as const,
     zIndex: 1,

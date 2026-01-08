@@ -24,10 +24,10 @@ export default function Projects() {
 
 const styles = {
   section: {
-    minHeight: '100vh',
+    minHeight: 'auto',
     display: 'flex',
     alignItems: 'center',
-    padding: '2rem',
+    padding: '4rem 2rem',
     color: '#451eff',
     position: 'relative' as const,
     zIndex: 1,
