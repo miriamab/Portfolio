@@ -70,7 +70,7 @@ export default function Navigation() {
         style={{
           ...styles.arrow,
           display: isAtBottom ? 'none' : 'flex',
-          animation: 'arrowBounce 3s ease-in-out infinite',
+          animation: 'arrowBounce 1s ease-in-out infinite',
         }}
         aria-label="Scroll down"
       >
