@@ -1,0 +1,49 @@
+### Health Check
+GET http://localhost:3001/health
+
+### Get all projects
+GET http://localhost:3001/api/projects
+
+### Get featured projects only
+GET http://localhost:3001/api/projects/featured
+
+### Get single project by ID (replace with actual ID)
+GET http://localhost:3001/api/projects/YOUR_PROJECT_ID_HERE
+
+### Create new project
+POST http://localhost:3001/api/projects
+Content-Type: application/json
+
+{
+  "title": "New Project",
+  "description": "A short description of the project",
+  "longDescription": "A longer, more detailed description of the project with all the features and technologies used.",
+  "technologies": ["React", "TypeScript", "Node.js"],
+  "githubUrl": "https://github.com/username/project",
+  "liveUrl": "https://project-demo.com",
+  "featured": true,
+  "order": 1
+}
+
+### Update project (replace with actual ID)
+PUT http://localhost:3001/api/projects/YOUR_PROJECT_ID_HERE
+Content-Type: application/json
+
+{
+  "title": "Updated Project Title",
+  "description": "Updated description",
+  "featured": false
+}
+
+### Delete project (replace with actual ID)
+DELETE http://localhost:3001/api/projects/YOUR_PROJECT_ID_HERE
+
+### Send contact message
+POST http://localhost:3001/api/contact
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "message": "Hello! This is a test message from the contact form."
+}

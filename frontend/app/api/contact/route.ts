@@ -5,59 +5,43 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { name, email, message } = body;
 
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    // Validation
+    if (!name || !email || !message) {
+      return NextResponse.json(
+        { error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return NextResponse.json({ error: 'Invalid email' }, { status: 400 });
     }
 
-    // Try to dynamically import nodemailer (avoids module not found at build time)
-    let nodemailerModule: any;
-    try {
-      nodemailerModule = await import('nodemailer');
-    } catch (importErr) {
-      console.warn('nodemailer not available:', importErr);
-      return NextResponse.json({ error: 'nodemailer not installed' }, { status: 501 });
-    }
-
-    const nodemailerLib = nodemailerModule?.default || nodemailerModule;
-
-    // If SMTP is not configured, return 501 so the client can fallback to mailto
-    if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
-      console.warn('SMTP not configured');
-      return NextResponse.json({ error: 'SMTP not configured' }, { status: 501 });
-    }
-
-    const transporter = nodemailerLib.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT || 587),
-      secure: process.env.SMTP_SECURE === 'true',
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
+    // Forward to backend API
+    const backendUrl = process.env.BACKEND_URL || 'http://localhost:3001';
+    const response = await fetch(`${backendUrl}/api/contact`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
+      body: JSON.stringify({ name, email, message }),
     });
 
-    const mailOptions = {
-      from: `${name || 'Portfolio Contact'} <${email}>`,
-      to: process.env.EMAIL_TO || 'miriam.abbas@hm.edu',
-      subject: `New contact from ${name || 'Portfolio visitor'}`,
-      text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
-    };
+    const data = await response.json();
 
-    try {
-      await transporter.sendMail(mailOptions);
-    } catch (sendErr: any) {
-      // If SMTP reports recipient rejected / user unknown, surface as 400 invalid email
-      const msg = (sendErr && sendErr.message) ? sendErr.message.toString() : '';
-      if (/recipient|rejected|user unknown|5\.1\.1|550/i.test(msg)) {
-        return NextResponse.json({ error: 'Invalid email address' }, { status: 400 });
-      }
-      console.error('Send mail error (non-recipient):', sendErr);
-      return NextResponse.json({ error: 'Failed to send' }, { status: 500 });
+    if (!response.ok) {
+      return NextResponse.json(
+        { error: data.error || 'Failed to send message' },
+        { status: response.status }
+      );
     }
 
-    return NextResponse.json({ ok: true });
-  } catch (err: any) {
-    console.error('Send mail error:', err);
-    return NextResponse.json({ error: 'Failed to send' }, { status: 500 });
+    return NextResponse.json(data, { status: 200 });
+  } catch (error) {
+    console.error('Error forwarding contact request:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
   }
 }
