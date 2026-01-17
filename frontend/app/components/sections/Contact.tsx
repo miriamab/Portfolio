@@ -5,6 +5,8 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth, getAuthHeaders } from "../../context/AuthContext";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -12,6 +14,8 @@ export default function Contact() {
     email: '',
     message: '',
   });
+  const router = useRouter();
+  const { isAuthenticated } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -80,11 +84,20 @@ export default function Contact() {
       const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
       const res = await fetch(`${backendUrl}/api/contact`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          ...getAuthHeaders()
+        },
         body: JSON.stringify(formData),
       });
 
       const data = await res.json();
+
+      // Bei 401 (Unauthorized) zur Login-Seite weiterleiten
+      if (res.status === 401) {
+        router.push('/login');
+        return;
+      }
 
       if (!res.ok) {
         throw new Error(data.error || 'Fehler beim Senden der Nachricht');
@@ -108,6 +121,15 @@ export default function Contact() {
         <p style={styles.description}>
           Interested in working together? Let me know!
         </p>
+
+        {/* Login-Hinweis wenn nicht eingeloggt */}
+        {!isAuthenticated && (
+          <div style={styles.loginNotice}>
+            <p>
+              Bitte <a href="/login" style={styles.loginLink}>melden Sie sich an</a>, um das Kontaktformular zu nutzen.
+            </p>
+          </div>
+        )}
 
         {/* Contact Form */}
         <form onSubmit={handleSubmit} style={styles.form}>
@@ -301,5 +323,19 @@ const styles = {
       backgroundColor: '#ffffff',
       color: '#451eff',
     },
+  },
+  loginNotice: {
+    backgroundColor: 'rgba(69, 30, 255, 0.1)',
+    border: '1px solid #451eff',
+    borderRadius: '6px',
+    padding: '1rem',
+    marginBottom: '1rem',
+    textAlign: 'center' as const,
+    color: '#451eff',
+  },
+  loginLink: {
+    color: '#451eff',
+    fontWeight: 600,
+    textDecoration: 'underline',
   },
 };

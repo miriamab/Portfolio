@@ -5,6 +5,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import DotGrid from "./components/DotGrid";
+import { AuthProvider } from "./context/AuthContext";
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -22,10 +23,12 @@ export default function RootLayout({
   return (
     <html lang="de">
       <body>
-        <div style={{ position: 'relative', minHeight: '100vh' }}>
-          <DotGrid />
-          {children}
-        </div>
+        <AuthProvider>
+          <div style={{ position: 'relative', minHeight: '100vh' }}>
+            <DotGrid />
+            {children}
+          </div>
+        </AuthProvider>
       </body>
     </html>
   );
