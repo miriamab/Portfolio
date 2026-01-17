@@ -19,71 +19,81 @@ export default function Contact() {
 
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [smtpNotConfigured, setSmtpNotConfigured] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<{
+    name?: string;
+    email?: string;
+    message?: string;
+  }>({});
+
+  const validateForm = (): boolean => {
+    const errors: { name?: string; email?: string; message?: string } = {};
+
+    // Name-Validierung
+    if (!formData.name.trim()) {
+      errors.name = 'Name ist erforderlich';
+    } else if (formData.name.trim().length < 2) {
+      errors.name = 'Name muss mindestens 2 Zeichen lang sein';
+    } else if (formData.name.trim().length > 100) {
+      errors.name = 'Name darf maximal 100 Zeichen lang sein';
+    }
+
+    // E-Mail-Validierung
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email.trim()) {
+      errors.email = 'E-Mail ist erforderlich';
+    } else if (!emailRegex.test(formData.email)) {
+      errors.email = 'Bitte gib eine gültige E-Mail-Adresse ein';
+    }
+
+    // Nachricht-Validierung
+    if (!formData.message.trim()) {
+      errors.message = 'Nachricht ist erforderlich';
+    } else if (formData.message.trim().length < 10) {
+      errors.message = 'Nachricht muss mindestens 10 Zeichen lang sein';
+    } else if (formData.message.trim().length > 2000) {
+      errors.message = 'Nachricht darf maximal 2000 Zeichen lang sein';
+    }
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-
-  const openMailClient = () => {
-    const to = 'miriam.abbas@hm.edu';
-    const subject = encodeURIComponent(formData.name ? `Message from ${formData.name}` : 'Portfolio contact');
-    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`);
-    window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
-  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMessage(null);
-    setSmtpNotConfigured(false);
+    setValidationErrors({});
 
-    if (!isValidEmail(formData.email)) {
-      setErrorMessage('Bitte gib eine gültige E-Mail-Adresse ein.');
+    // Frontend-Validierung
+    if (!validateForm()) {
       return;
     }
 
     try {
       setStatus('sending');
 
-      const res = await fetch('/api/contact', {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
+      const res = await fetch(`${backendUrl}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
-      // Parse JSON if possible
-      let data: any = null;
-      try {
-        data = await res.json();
-      } catch (jsonErr) {
-        // non-JSON response (e.g., server error HTML) — fall through
-      }
-
-      if (res.status === 501) {
-        // SMTP not configured on server — offer mailto fallback
-        setSmtpNotConfigured(true);
-        setStatus('idle');
-        setErrorMessage(data?.error || 'SMTP not configured on server.');
-        return;
-      }
-
-      if (res.status === 400) {
-        // Invalid email (server-side validation or recipient rejected)
-        setStatus('idle');
-        setErrorMessage(data?.error || 'Invalid email address.');
-        return;
-      }
+      const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data?.error || 'Unknown error');
+        throw new Error(data.error || 'Fehler beim Senden der Nachricht');
       }
 
       setStatus('success');
       setFormData({ name: '', email: '', message: '' });
+      setTimeout(() => setStatus('idle'), 5000);
     } catch (err: any) {
       console.error(err);
       setStatus('error');
       setErrorMessage(err.message || 'Beim Senden ist ein Fehler aufgetreten.');
-    } finally {
-      setTimeout(() => setStatus('idle'), 3000);
+      setTimeout(() => setStatus('idle'), 5000);
     }
   };
 
@@ -105,9 +115,12 @@ export default function Contact() {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              style={styles.input}
+              style={validationErrors.name ? { ...styles.input, ...styles.inputInvalid } : styles.input}
               required
             />
+            {validationErrors.name && (
+              <p style={styles.error} role="alert">{validationErrors.name}</p>
+            )}
           </div>
 
           <div style={styles.formGroup}>
@@ -118,13 +131,11 @@ export default function Contact() {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              style={formData.email && !isValidEmail(formData.email) ? { ...styles.input, ...styles.inputInvalid } : styles.input}
+              style={validationErrors.email ? { ...styles.input, ...styles.inputInvalid } : styles.input}
               required
-              aria-invalid={formData.email ? !isValidEmail(formData.email) : false}
-              aria-describedby="email-error"
             />
-            {formData.email && !isValidEmail(formData.email) && (
-              <p id="email-error" style={styles.error} role="alert">Please enter a valid email address.</p>
+            {validationErrors.email && (
+              <p style={styles.error} role="alert">{validationErrors.email}</p>
             )}
           </div>
 
@@ -135,25 +146,28 @@ export default function Contact() {
               name="message"
               value={formData.message}
               onChange={handleChange}
-              style={styles.textarea}
+              style={validationErrors.message ? { ...styles.textarea, ...styles.inputInvalid } : styles.textarea}
               rows={5}
               required
             />
+            {validationErrors.message && (
+              <p style={styles.error} role="alert">{validationErrors.message}</p>
+            )}
           </div>
 
-          <button type="submit" style={styles.submitButton} disabled={status === 'sending' || !isValidEmail(formData.email)}>
-            {status === 'sending' ? 'Sending…' : 'Send Message'}
+          <button 
+            type="submit" 
+            style={styles.submitButton} 
+            disabled={status === 'sending'}
+          >
+            {status === 'sending' ? 'Wird gesendet…' : 'Nachricht senden'}
           </button>
 
-          {status === 'success' && <p style={styles.success}>Nachricht gesendet — danke!</p>}
-          {status === 'error' && <p style={styles.error}>{errorMessage || 'Fehler beim Senden'}</p>}
-          {errorMessage && status === 'idle' && <p style={styles.error}>{errorMessage}</p>}
-
-          {smtpNotConfigured && (
-            <div style={{ marginTop: '1rem' }}>
-              <p style={styles.error}>SMTP ist nicht konfiguriert. Du kannst stattdessen dein Mailprogramm öffnen:</p>
-              <button type="button" onClick={openMailClient} style={{ ...styles.submitButton, marginTop: '0.5rem' }}>Mail öffnen</button>
-            </div>
+          {status === 'success' && (
+            <p style={styles.success}>✓ Nachricht erfolgreich gesendet!</p>
+          )}
+          {status === 'error' && errorMessage && (
+            <p style={styles.error}>{errorMessage}</p>
           )}
         </form>
       </div>
