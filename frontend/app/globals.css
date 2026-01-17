@@ -94,3 +94,15 @@ p {
     opacity: 0;
   }
 }
+/* Responsive Grid für Projekte */
+@media (max-width: 768px) {
+  .projects-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}

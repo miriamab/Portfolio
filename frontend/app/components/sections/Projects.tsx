@@ -1,41 +1,123 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 
+interface Project {
+  _id: string;
+  title: string;
+  description: string;
+  longDescription?: string;
+  technologies: string[];
+  images: string[];
+  githubUrl?: string;
+  liveUrl?: string;
+  featured: boolean;
+  order: number;
+}
+
 export default function Projects() {
-  const [selectedProject, setSelectedProject] = useState<number | null>(null);
-  
-  const projects = [
-    { title: "Project 1", attributes: ["Attribute 1", "Attribute 2", "Attribute 3"], image: "Image", subtitle: "Subtitle 1" },
-    { title: "Project 2", attributes: ["Attribute 1", "Attribute 2", "Attribute 3"], image: "Image", subtitle: "Subtitle 2" },
-    { title: "Project 3", attributes: ["Attribute 1", "Attribute 2", "Attribute 3"], image: "Image", subtitle: "Subtitle 3" },
-    { title: "Project 4", attributes: ["Attribute 1", "Attribute 2", "Attribute 3"], image: "Image", subtitle: "Subtitle 3" },
-  ];
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
+        const response = await fetch(`${backendUrl}/api/projects`);
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch projects');
+        }
+        
+        const data = await response.json();
+        setProjects(data);
+      } catch (err) {
+        console.error('Error fetching projects:', err);
+        setError('Projekte konnten nicht geladen werden');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
 
   const closeModal = () => {
     setSelectedProject(null);
+    setCurrentImageIndex(0);
   };
+
+  const nextImage = () => {
+    if (selectedProject && selectedProject.images.length > 0) {
+      setCurrentImageIndex((prev) => 
+        prev < selectedProject.images.length - 1 ? prev + 1 : prev
+      );
+    }
+  };
+
+  const previousImage = () => {
+    if (selectedProject && selectedProject.images.length > 0) {
+      setCurrentImageIndex((prev) => 
+        prev > 0 ? prev - 1 : prev
+      );
+    }
+  };
+
+  if (loading) {
+    return (
+      <section id="projects" style={styles.section}>
+        <div style={styles.content}>
+          <h2 style={styles.title}>Projects</h2>
+          <p>Lädt Projekte...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section id="projects" style={styles.section}>
+        <div style={styles.content}>
+          <h2 style={styles.title}>Projects</h2>
+          <p style={{color: 'red'}}>{error}</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="projects" style={styles.section}>
       <div style={styles.content}>
         <h2 style={styles.title}>Projects</h2>
-        <div style={styles.projectsGrid}>
-          {projects.map((project, index) => (
+        <div className="projects-grid" style={styles.projectsGrid}>
+          {projects.map((project) => (
             <div
-              key={index}
-              onClick={() => setSelectedProject(index)}
+              key={project._id}
+              onClick={() => setSelectedProject(project)}
               style={{...styles.projectCard, cursor: 'pointer'}}
             >
               <h3 style={styles.projectTitle}>{project.title}</h3>
               <div style={styles.attributesContainer}>
-                {project.attributes.map((attr, attrIndex) => (
-                  <span key={attrIndex} style={styles.attribute}>{attr}</span>
+                {project.technologies.map((tech, idx) => (
+                  <span key={idx} style={styles.attribute}>{tech}</span>
                 ))}
               </div>
-              <div style={styles.projectImage}>{project.image}</div>
-              <p style={styles.projectSubtitle}>{project.subtitle}</p>
+              <div style={styles.projectImage}>
+                {project.images && project.images.length > 0 ? (
+                  <img 
+                    src={project.images[0]}
+                    alt={project.title}
+                    style={{width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px'}}
+                  />
+                ) : (
+                  <span>Kein Bild</span>
+                )}
+              </div>
+              <p style={styles.projectSubtitle}>{project.description}</p>
             </div>
           ))}
         </div>
@@ -52,19 +134,84 @@ export default function Projects() {
             >
               ✕
             </button>
-            <h2 style={styles.modalTitle}>{projects[selectedProject].title}</h2>
-            <div style={styles.modalImage}>{projects[selectedProject].image}</div>
+            <h2 style={styles.modalTitle}>{selectedProject.title}</h2>
+            <div style={styles.carouselContainer}>
+              {selectedProject.images && selectedProject.images.length > 0 ? (
+                <>
+                  <button 
+                    onClick={previousImage}
+                    style={{
+                      ...styles.carouselButton,
+                      opacity: currentImageIndex === 0 ? 0.3 : 1,
+                      cursor: currentImageIndex === 0 ? 'not-allowed' : 'pointer'
+                    }}
+                    disabled={currentImageIndex === 0}
+                    aria-label="Previous image"
+                  >
+                    ‹
+                  </button>
+                  <div style={styles.carouselImageWrapper}>
+                    <img 
+                      src={selectedProject.images[currentImageIndex]}
+                      alt={`${selectedProject.title} ${currentImageIndex + 1}`}
+                      style={styles.carouselImage}
+                    />
+                    <div style={styles.imageCounter}>
+                      {currentImageIndex + 1} / {selectedProject.images.length}
+                    </div>
+                  </div>
+                  <button 
+                    onClick={nextImage}
+                    style={{
+                      ...styles.carouselButton,
+                      opacity: currentImageIndex === selectedProject.images.length - 1 ? 0.3 : 1,
+                      cursor: currentImageIndex === selectedProject.images.length - 1 ? 'not-allowed' : 'pointer'
+                    }}
+                    disabled={currentImageIndex === selectedProject.images.length - 1}
+                    aria-label="Next image"
+                  >
+                    ›
+                  </button>
+                </>
+              ) : (
+                <div style={styles.modalImagePlaceholder}>Kein Bild verfügbar</div>
+              )}
+            </div>
             <p style={styles.modalDescription}>
-              Detaillierte Beschreibung für {projects[selectedProject].title}. Dies ist ein Platzhalter für weitere Informationen über dieses Projekt.
+              {selectedProject.longDescription || selectedProject.description}
             </p>
             <div style={styles.modalAttributesContainer}>
-              <h3 style={styles.modalSubtitle}>Attribute:</h3>
+              <h3 style={styles.modalSubtitle}>Technologien:</h3>
               <div style={styles.modalAttributesList}>
-                {projects[selectedProject].attributes.map((attr, idx) => (
-                  <span key={idx} style={styles.modalAttribute}>{attr}</span>
+                {selectedProject.technologies.map((tech, idx) => (
+                  <span key={idx} style={styles.modalAttribute}>{tech}</span>
                 ))}
               </div>
             </div>
+            {(selectedProject.githubUrl || selectedProject.liveUrl) && (
+              <div style={styles.modalLinks}>
+                {selectedProject.githubUrl && (
+                  <a 
+                    href={selectedProject.githubUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    style={styles.modalLink}
+                  >
+                    GitHub →
+                  </a>
+                )}
+                {selectedProject.liveUrl && (
+                  <a 
+                    href={selectedProject.liveUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    style={styles.modalLink}
+                  >
+                    Live Demo →
+                  </a>
+                )}
+              </div>
+            )}
           </div>
         </div>,
         document.body
@@ -97,7 +244,7 @@ const styles = {
   },
   projectsGrid: {
     display: 'grid' as const,
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gridTemplateColumns: 'repeat(3, 1fr)',
     gap: '2rem',
   },
   projectCard: {
@@ -172,10 +319,10 @@ const styles = {
     borderWidth: '2px',
     borderStyle: 'solid',
     borderColor: '#451eff',
-    padding: '2rem',
-    maxWidth: '600px',
-    width: '90%',
-    maxHeight: '80vh',
+    padding: '3rem',
+    maxWidth: '1800px',
+    width: '95%',
+    maxHeight: '90vh',
     overflow: 'auto' as const,
     position: 'relative' as const,
     zIndex: 10000,
@@ -204,7 +351,60 @@ const styles = {
     marginTop: 0,
     marginBottom: '1.5rem',
   },
+  carouselContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '1.5rem',
+    marginBottom: '2rem',
+    position: 'relative' as const,
+  },
+  carouselButton: {
+    background: '#451eff',
+    color: '#ffffff',
+    border: 'none',
+    fontSize: '3rem',
+    cursor: 'pointer',
+    padding: '0.5rem 1rem',
+    borderRadius: '8px',
+    fontWeight: 300,
+    transition: 'opacity 0.3s ease',
+    flexShrink: 0,
+  },
+  carouselImageWrapper: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column' as const,
+    alignItems: 'center',
+    position: 'relative' as const,
+  },
+  carouselImage: {
+    width: '100%',
+    height: 'auto',
+    maxHeight: '70vh',
+    objectFit: 'contain' as const,
+    borderRadius: '8px',
+  },
+  imageCounter: {
+    marginTop: '1rem',
+    fontSize: '0.9rem',
+    color: '#451eff',
+    fontWeight: 500,
+  },
+  modalImagesContainer: {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    gap: '1rem',
+    marginBottom: '1.5rem',
+  },
   modalImage: {
+    width: '100%',
+    height: 'auto',
+    maxHeight: '400px',
+    objectFit: 'contain' as const,
+    borderRadius: '8px',
+    border: '1px solid #e0e0e0',
+  },
+  modalImagePlaceholder: {
     width: '100%',
     height: '300px',
     backgroundColor: '#f0f0f0',
@@ -213,7 +413,6 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: '1.5rem',
     fontSize: '1.1rem',
     color: '#999',
     fontWeight: 500,
@@ -245,5 +444,20 @@ const styles = {
     padding: '0.5rem 1rem',
     borderRadius: '6px',
     fontWeight: 500,
+  },
+  modalLinks: {
+    display: 'flex',
+    gap: '1rem',
+    marginTop: '2rem',
+  },
+  modalLink: {
+    display: 'inline-block',
+    padding: '0.75rem 1.5rem',
+    backgroundColor: '#451eff',
+    color: '#ffffff',
+    textDecoration: 'none',
+    borderRadius: '6px',
+    fontWeight: 600,
+    transition: 'opacity 0.3s ease',
   },
 };
