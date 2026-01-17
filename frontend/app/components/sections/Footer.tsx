@@ -1,3 +1,7 @@
+/**
+ * Author: Miriam Abbas
+ */
+
 export default function Footer() {
   return (
     <footer id="footer" style={styles.footer}>

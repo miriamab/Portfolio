@@ -1,3 +1,7 @@
+/**
+ * Author: Miriam Abbas
+ */
+
 "use client";
 
 import { useState } from "react";

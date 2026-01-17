@@ -1,3 +1,7 @@
+/**
+ * Author: Miriam Abbas
+ */
+
 import type { Metadata } from "next";
 import "./globals.css";
 import DotGrid from "./components/DotGrid";

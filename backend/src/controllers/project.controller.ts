@@ -1,3 +1,7 @@
+/**
+ * Author: Miriam Abbas
+ */
+
 import { Request, Response } from 'express';
 import Project from '../models/Project';
 

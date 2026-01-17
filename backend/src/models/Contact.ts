@@ -1,3 +1,7 @@
+/**
+ * Author: Miriam Abbas
+ */
+
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IContact extends Document {

@@ -1,3 +1,7 @@
+/**
+ * Author: Miriam Abbas
+ */
+
 export default function AboutMe() {
   const skills = [
     { name: 'Python', rating: 5 },
