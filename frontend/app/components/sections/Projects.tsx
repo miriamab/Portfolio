@@ -9,11 +9,14 @@ interface Project {
   description: string;
   longDescription?: string;
   technologies: string[];
+  attributes?: string[];
   images: string[];
   githubUrl?: string;
   liveUrl?: string;
   featured: boolean;
   order: number;
+  startDate?: string;
+  endDate?: string;
 }
 
 export default function Projects() {
@@ -101,7 +104,19 @@ export default function Projects() {
               style={{...styles.projectCard, cursor: 'pointer'}}
             >
               <h3 style={styles.projectTitle}>{project.title}</h3>
-              <div style={styles.attributesContainer}>
+              {(project.startDate || project.endDate) && (
+                <div style={styles.dateRange}>
+                  {project.startDate} {project.startDate && project.endDate && '—'} {project.endDate}
+                </div>
+              )}
+              {project.attributes && project.attributes.length > 0 && (
+                <div style={styles.attributesContainer}>
+                  {project.attributes.map((attr, idx) => (
+                    <span key={idx} style={styles.attributeTag}>{attr}</span>
+                  ))}
+                </div>
+              )}
+              <div style={styles.techContainer}>
                 {project.technologies.map((tech, idx) => (
                   <span key={idx} style={styles.attribute}>{tech}</span>
                 ))}
@@ -135,6 +150,11 @@ export default function Projects() {
               ✕
             </button>
             <h2 style={styles.modalTitle}>{selectedProject.title}</h2>
+            {(selectedProject.startDate || selectedProject.endDate) && (
+              <div style={styles.modalDateRange}>
+                {selectedProject.startDate} {selectedProject.startDate && selectedProject.endDate && '—'} {selectedProject.endDate}
+              </div>
+            )}
             <div style={styles.carouselContainer}>
               {selectedProject.images && selectedProject.images.length > 0 ? (
                 <>
@@ -180,6 +200,16 @@ export default function Projects() {
             <p style={styles.modalDescription}>
               {selectedProject.longDescription || selectedProject.description}
             </p>
+            {selectedProject.attributes && selectedProject.attributes.length > 0 && (
+              <div style={styles.modalAttributesContainer}>
+                <h3 style={styles.modalSubtitle}>Eigenschaften:</h3>
+                <div style={styles.modalAttributesList}>
+                  {selectedProject.attributes.map((attr, idx) => (
+                    <span key={idx} style={styles.modalAttributeTag}>{attr}</span>
+                  ))}
+                </div>
+              </div>
+            )}
             <div style={styles.modalAttributesContainer}>
               <h3 style={styles.modalSubtitle}>Technologien:</h3>
               <div style={styles.modalAttributesList}>
@@ -278,6 +308,27 @@ const styles = {
     borderWidth: '1px',
     borderStyle: 'solid',
     borderColor: '#451eff',
+  },
+  attributeTag: {
+    fontSize: '0.75rem',
+    backgroundColor: '#451eff',
+    color: '#ffffff',
+    padding: '0.3rem 0.6rem',
+    borderRadius: '4px',
+    fontWeight: 500,
+  },
+  techContainer: {
+    display: 'flex',
+    gap: '0.5rem',
+    marginBottom: '1rem',
+    flexWrap: 'wrap' as const,
+    color: '#451eff',
+  },
+  dateRange: {
+    fontSize: '0.85rem',
+    color: '#666',
+    marginBottom: '0.75rem',
+    fontStyle: 'italic',
   },
   projectImage: {
     width: '100%',
@@ -444,6 +495,23 @@ const styles = {
     padding: '0.5rem 1rem',
     borderRadius: '6px',
     fontWeight: 500,
+  },
+  modalAttributeTag: {
+    fontSize: '0.85rem',
+    backgroundColor: '#f0f0f0',
+    color: '#451eff',
+    padding: '0.4rem 0.8rem',
+    borderRadius: '6px',
+    fontWeight: 600,
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: '#451eff',
+  },
+  modalDateRange: {
+    fontSize: '1rem',
+    color: '#666',
+    marginBottom: '1.5rem',
+    fontStyle: 'italic',
   },
   modalLinks: {
     display: 'flex',

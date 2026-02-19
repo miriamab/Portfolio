@@ -7,13 +7,16 @@ export interface IProject {
   description: string;
   longDescription?: string;
   technologies: string[];
+  attributes?: string[];
   images: string[];
   githubUrl?: string;
   liveUrl?: string;
   featured: boolean;
   order: number;
-  createdAt: string;
-  updatedAt: string;
+  startDate?: string;
+  endDate?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 const projectsFilePath = path.join(__dirname, '../../data/projects.json');

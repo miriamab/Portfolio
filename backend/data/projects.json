@@ -1,17 +1,17 @@
 [
   {
     "id": "1",
-    "title": "Portfolio Website",
-    "description": "Eine moderne Portfolio-Website mit TypeScript und React",
-    "longDescription": "Ein vollständiges Portfolio-System mit Frontend und Backend, entwickelt mit Next.js, TypeScript und Express.",
-    "technologies": ["TypeScript", "React", "Next.js", "Express", "Tailwind CSS"],
-    "images": ["/project-images/portfolio.png"],
+    "title": "Case Unknown",
+    "description": "An interactive detective game built using a chatbot interface.",
+    "longDescription": "Case Unknown is an interactive storytelling experience that challenges players to outsmart a cynical AI detective. Using a mix of memory fragments and strategic dialogue, players navigate a high-stakes interrogation designed with a time pressure element to increase tension. This project allowed me to explore the intersection of Generative AI and immersive game design, focusing on creating a cohesive, moody atmosphere. ",
+    "technologies": ["Python", "Gradio", "OpenAI API", "GitHub", "CSS"],
+    "attributes": ["Group project", "Universtiy project"],
+    "images": ["/project-images/project1/screenshot_landing.png", "/project-images/project1/screenshot_game.png"],
     "githubUrl": "https://github.com/yourusername/portfolio",
-    "liveUrl": "https://yourportfolio.com",
     "featured": true,
     "order": 1,
-    "createdAt": "2024-01-15T10:00:00Z",
-    "updatedAt": "2024-01-15T10:00:00Z"
+    "startDate": "Oct 2024",
+    "endDate": "Feb 2025"
   },
   {
     "id": "2",
