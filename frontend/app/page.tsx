@@ -1,11 +1,7 @@
-/**
- * Author: Miriam Abbas
- */
 
 import Hero from "./components/sections/Hero";
 import AboutMe from "./components/sections/AboutMe";
 import Projects from "./components/sections/Projects";
-import Contact from "./components/sections/Contact";
 import Footer from "./components/sections/Footer";
 import Navigation from "./components/Navigation";
 
@@ -16,7 +12,6 @@ export default function Home() {
       <Hero />
       <AboutMe />
       <Projects />
-      <Contact />
       <Footer />
     </div>
   );

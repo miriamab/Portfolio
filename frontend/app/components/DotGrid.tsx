@@ -1,6 +1,3 @@
-/**
- * Author: Miriam Abbas
- */
 
 "use client";
 

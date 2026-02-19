@@ -1,0 +1,30 @@
+[
+  {
+    "id": "1",
+    "title": "Portfolio Website",
+    "description": "Eine moderne Portfolio-Website mit TypeScript und React",
+    "longDescription": "Ein vollständiges Portfolio-System mit Frontend und Backend, entwickelt mit Next.js, TypeScript und Express.",
+    "technologies": ["TypeScript", "React", "Next.js", "Express", "Tailwind CSS"],
+    "images": ["/project-images/portfolio.png"],
+    "githubUrl": "https://github.com/yourusername/portfolio",
+    "liveUrl": "https://yourportfolio.com",
+    "featured": true,
+    "order": 1,
+    "createdAt": "2024-01-15T10:00:00Z",
+    "updatedAt": "2024-01-15T10:00:00Z"
+  },
+  {
+    "id": "2",
+    "title": "Weather App",
+    "description": "Eine Wetter-Anwendung mit echtzeitlichen Daten",
+    "longDescription": "Zeigt aktuelle Wetterdaten mit 5-Tages-Vorhersage an",
+    "technologies": ["React", "API Integration", "Tailwind CSS"],
+    "images": ["/project-images/weather.png"],
+    "githubUrl": "https://github.com/yourusername/weather-app",
+    "liveUrl": "https://yourweatherapp.com",
+    "featured": false,
+    "order": 2,
+    "createdAt": "2024-02-01T10:00:00Z",
+    "updatedAt": "2024-02-01T10:00:00Z"
+  }
+]

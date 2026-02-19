@@ -1,21 +1,13 @@
-/**
- * Author: Miriam Abbas
- */
-
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
-import connectDB from './config/database';
 import apiRoutes from './routes';
 
 dotenv.config();
 
 const app: Application = express();
 const PORT = process.env.PORT || 3001;
-
-// Connect to MongoDB
-connectDB();
 
 // Middleware
 app.use(cors({

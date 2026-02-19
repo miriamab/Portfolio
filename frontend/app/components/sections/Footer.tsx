@@ -1,7 +1,3 @@
-/**
- * Author: Miriam Abbas
- */
-
 export default function Footer() {
   return (
     <footer id="footer" style={styles.footer}>
@@ -36,17 +32,17 @@ const styles = {
     display: 'flex',
     gap: '2rem',
     justifyContent: 'center',
-    marginBottom: '2rem',
+    marginBottom: '1rem',
     flexWrap: 'wrap' as const,
   },
   link: {
-    color: '#6b6bff',
+    color: '#451eff',
     textDecoration: 'none',
     fontWeight: 500,
     fontSize: '1rem',
     transition: 'all 0.3s ease',
     borderBottom: '2px solid transparent',
-    paddingBottom: '0.25rem',
+    paddingBottom: '0rem',
     ':hover': {
       borderBottomColor: '#451eff',
       opacity: 0.9,

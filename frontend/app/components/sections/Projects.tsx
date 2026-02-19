@@ -1,14 +1,10 @@
-/**
- * Author: Miriam Abbas
- */
-
 "use client";
 
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 
 interface Project {
-  _id: string;
+  id: string;
   title: string;
   description: string;
   longDescription?: string;
@@ -100,7 +96,7 @@ export default function Projects() {
         <div className="projects-grid" style={styles.projectsGrid}>
           {projects.map((project) => (
             <div
-              key={project._id}
+              key={project.id}
               onClick={() => setSelectedProject(project)}
               style={{...styles.projectCard, cursor: 'pointer'}}
             >
@@ -229,7 +225,7 @@ const styles = {
     minHeight: 'auto',
     display: 'flex',
     alignItems: 'center',
-    padding: '10rem 2rem',
+    padding: '2rem 2rem',
     color: '#451eff',
     position: 'relative' as const,
     zIndex: 1,

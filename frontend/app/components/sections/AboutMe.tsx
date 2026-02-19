@@ -1,7 +1,3 @@
-/**
- * Author: Miriam Abbas
- */
-
 export default function AboutMe() {
   const skills = [
     { name: 'Python', rating: 5 },
@@ -31,17 +27,12 @@ export default function AboutMe() {
         <h2 style={styles.title}>About Me</h2>
         <div style={styles.boxesContainer}>
           <div style={styles.leftBox}>
-            <p style={styles.boxText}>Hi there, my name is Miriam! I am an Informatics and Design student specializing in the intersection of technical logic and user-centered design. With a focus on Python, JavaScript, and Generative AI, I build everything from interactive 3D web environments to intelligent chatbot systems. As an experienced Scrum Master, I combine my development skills with agile leadership to deliver robust, well-designed software solutions.</p>
-          </div>
-          <div style={styles.rightBox}>
-            <div style={styles.skillsList}>
-              {skills.map((skill, index) => (
-                <div key={index} style={styles.skillItem}>
-                  <span style={styles.skillName}>{skill.name}</span>
-                  {renderRating(skill.rating)}
-                </div>
-              ))}
-            </div>
+            <p style={styles.boxText}>Hi there, my name is Miriam! <br></br>
+              I am an Informatics and Design student in Munich specializing in the intersection 
+              of technical logic and user-centered design. Currently, I’m diving deep into Python, 
+              JavaScript, and AI to create modern websites and AI-driven projects. Beyond coding, 
+              I’m passionate about agile project organization, combining efficient workflows with 
+              a human-centered approach to build digital solutions that really work for people. </p>
           </div>
         </div>
       </div>
@@ -54,7 +45,7 @@ const styles = {
     minHeight: 'auto',
     display: 'flex',
     alignItems: 'center',
-    padding: '4rem 2rem',
+    padding: '2rem 2rem',
     color: '#451eff',
     position: 'relative' as const,
     zIndex: 1,
@@ -88,7 +79,7 @@ const styles = {
     padding: '1.5rem',
     borderRadius: '4px',
     display: 'inline-block' as const,
-    width: '30%',
+    width: '60%',
   },
   rightBox: {
     backgroundColor: 'white',

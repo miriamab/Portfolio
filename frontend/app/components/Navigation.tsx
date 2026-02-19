@@ -1,16 +1,10 @@
-/**
- * Author: Miriam Abbas
- */
-
 "use client";
 
 import { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
 
 export default function Navigation() {
   const [activeSection, setActiveSection] = useState(0);
   const [isAtBottom, setIsAtBottom] = useState(false);
-  const { isAuthenticated, user, logout } = useAuth();
 
   const sections = [
     { id: "hero", label: "Hero" },
@@ -70,17 +64,6 @@ export default function Navigation() {
 
   return (
     <nav style={styles.nav}>
-      {/* Auth Status - oben rechts */}
-      {isAuthenticated && (
-        <div style={styles.authContainer}>
-          <span style={styles.userName}>{user?.name}</span>
-          <button onClick={logout} style={styles.logoutButton}>
-            Logout
-          </button>
-        </div>
-      )}
-
-      {/* Arrow - absolute positioned at bottom */}
       <button
         onClick={scrollToNextSection}
         style={{
@@ -117,31 +100,6 @@ const styles: { [key: string]: React.CSSProperties } = {
     bottom: 0,
     zIndex: 9998,
     width: '12px',
-  },
-  authContainer: {
-    position: 'fixed',
-    top: '1.5rem',
-    right: '2rem',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '1rem',
-    zIndex: 9999,
-  },
-  userName: {
-    fontSize: '0.9rem',
-    color: '#451eff',
-    fontWeight: 500,
-  },
-  logoutButton: {
-    padding: '0.5rem 1rem',
-    fontSize: '0.85rem',
-    color: '#451eff',
-    backgroundColor: 'transparent',
-    border: '1px solid #451eff',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontFamily: 'IBM Plex Mono, monospace',
-    transition: 'all 0.2s ease',
   },
   arrow: {
     background: 'none',
