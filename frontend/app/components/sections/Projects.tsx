@@ -95,44 +95,84 @@ export default function Projects() {
   return (
     <section id="projects" style={styles.section}>
       <div style={styles.content}>
+        <style>{`
+          .project-preview-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            cursor: pointer;
+            border-radius: 4px;
+            overflow: hidden;
+            background-color: #451eff;
+            transition: all 0.3s ease;
+          }
+          .project-preview-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #451eff;
+            transition: opacity 0.3s ease;
+            z-index: 2;
+            padding: 1.5rem;
+          }
+          .project-preview-wrapper:hover .project-preview-overlay {
+            opacity: 0;
+          }
+          .project-preview-title {
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: 500;
+            text-align: center;
+            font-family: 'Gasoek One', sans-serif;
+            letter-spacing: 0.05em;
+          }
+          .project-preview-image-container {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+            border: 1px solid #451eff;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: #ffffff;
+          }
+          .project-preview-wrapper:hover .project-preview-image-container {
+            opacity: 1;
+          }
+          .project-preview-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 3px;
+          }
+        `}</style>
         <h2 style={styles.title}>Projects</h2>
         <div className="projects-grid" style={styles.projectsGrid}>
           {projects.map((project) => (
             <div
               key={project.id}
               onClick={() => setSelectedProject(project)}
-              style={{...styles.projectCard, cursor: 'pointer'}}
+              className="project-preview-wrapper"
             >
-              <h3 style={styles.projectTitle}>{project.title}</h3>
-              {(project.startDate || project.endDate) && (
-                <div style={styles.dateRange}>
-                  {project.startDate} {project.startDate && project.endDate && '—'} {project.endDate}
-                </div>
-              )}
-              {project.attributes && project.attributes.length > 0 && (
-                <div style={styles.attributesContainer}>
-                  {project.attributes.map((attr, idx) => (
-                    <span key={idx} style={styles.attributeTag}>{attr}</span>
-                  ))}
-                </div>
-              )}
-              <div style={styles.techContainer}>
-                {project.technologies.map((tech, idx) => (
-                  <span key={idx} style={styles.attribute}>{tech}</span>
-                ))}
+              <div className="project-preview-overlay">
+                <h3 className="project-preview-title">{project.title}</h3>
               </div>
-              <div style={styles.projectImage}>
+              <div className="project-preview-image-container">
                 {project.images && project.images.length > 0 ? (
                   <img 
                     src={project.images[0]}
                     alt={project.title}
-                    style={{width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px'}}
+                    className="project-preview-image"
                   />
                 ) : (
-                  <span>Kein Bild</span>
+                  <div style={{width: '100%', height: '100%', backgroundColor: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#999', borderRadius: '3px'}}>
+                    Kein Bild
+                  </div>
                 )}
               </div>
-              <p style={styles.projectSubtitle}>{project.description}</p>
             </div>
           ))}
         </div>

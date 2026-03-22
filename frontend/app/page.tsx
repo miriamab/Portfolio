@@ -1,17 +1,11 @@
 
 import Hero from "./components/sections/Hero";
-import AboutMe from "./components/sections/AboutMe";
-import Projects from "./components/sections/Projects";
 import Footer from "./components/sections/Footer";
-import Navigation from "./components/Navigation";
 
 export default function Home() {
   return (
     <div style={styles.container}>
-      <Navigation />
       <Hero />
-      <AboutMe />
-      <Projects />
       <Footer />
     </div>
   );
@@ -21,7 +15,7 @@ const styles = {
   container: {
     display: 'flex',
     flexDirection: 'column' as const,
-    minHeight: '100vh',
-    padding: '0 4rem',
+    height: '100vh',
+    overflow: 'hidden',
   },
 };
