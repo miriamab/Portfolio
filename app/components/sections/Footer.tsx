@@ -1,18 +1,63 @@
+"use client";
+
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function Footer() {
+  const pathname = usePathname();
+  const router = useRouter();
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const isBluePage = pathname === '/about';
+
+  const handleTransition = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    // If not on the current page, and going to about page
+    if (href === '/about' && href !== pathname) {
+      e.preventDefault();
+      setIsAnimating(true);
+      setTimeout(() => {
+        router.push(href);
+        // Reset state slightly after routing to be safe
+        setTimeout(() => setIsAnimating(false), 100);
+      }, 600); // 600ms corresponds to transition time
+    }
+    // Could add reverse animation for other links, but let's stick to the requested one.
+  };
+
+  const navLinkColor = isBluePage ? '#ffffff' : '#451eff';
+  const barColor = isBluePage ? '#ffffff' : '#451eff';
+
   return (
     <>
       <style>{`
+        .page-transition-overlay {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 60px;
+          background-color: #451eff;
+          z-index: 99999;
+          pointer-events: none;
+          opacity: 0;
+          transition: height 0.6s cubic-bezier(0.85, 0, 0.15, 1);
+        }
+        .page-transition-overlay.animating {
+          opacity: 1;
+          height: 100vh;
+          transition: height 0.6s cubic-bezier(0.85, 0, 0.15, 1), opacity 0s;
+        }
+
         .bottom-nav-link {
-          color: #451eff;
+          color: ${navLinkColor};
           text-decoration: none;
           font-weight: 400;
           font-size: clamp(1.2rem, 3.5vw, 2.5rem);
           letter-spacing: 0.02em;
           font-family: 'Gasoek One', sans-serif;
           line-height: 1;
-          transition: transform 0.3s ease;
+          transition: transform 0.3s ease, color 0.3s ease;
           display: inline-block;
           position: relative;
           z-index: 2;
@@ -26,14 +71,14 @@ export default function Footer() {
         }
         
         .bottom-nav-link:hover {
-          transform: translateY(-5px); /* Less link flight, let the bar do the heavy lifting */
+          transform: translateY(-25px); /* Less link flight, let the bar do the heavy lifting */
           opacity: 1 !important; /* Force override completely */
         }
 
         .nav-links-inner:hover ~ .bottom-bar {
-          transform: translateY(-8px);
-          height: 68px; /* Grows higher to swallow the text base */
-          background-color: #451eff;
+          transform: translateY(-89px);
+          height: 78px; /* Grows higher to swallow the text base */
+          background-color: ${barColor};
         }
 
         .bottom-bar {
@@ -48,7 +93,7 @@ export default function Footer() {
           right: 0;
           bottom: 0;
           height: 60px;
-          background-color: #451eff;
+          background-color: ${barColor};
           z-index: 999;
           pointer-events: none;
         }
@@ -77,7 +122,7 @@ export default function Footer() {
         .nav-links-inner:has(.bottom-nav-link:hover) ~ .bottom-bar {
           transform: translateY(-8px);
           height: 68px; /* Grows higher to swallow the text base */
-          background-color: #451eff;
+          background-color: ${barColor};
         }
 
         .nav-group {
@@ -106,11 +151,15 @@ export default function Footer() {
           }
         }
       `}</style>
+
+      {/* Full screen animation overlay */}
+      <div className={`page-transition-overlay ${isAnimating ? 'animating' : ''}`} />
+
       <div className="footer-bottom-wrapper">
         <div style={styles.navLinksContainer}>
           <div className="nav-links-inner">
             <div className="nav-group">
-              <Link href="/about" className="bottom-nav-link">ABOUT ME</Link>
+              <Link href="/about" className="bottom-nav-link" onClick={(e) => handleTransition(e, "/about")}>ABOUT ME</Link>
               <Link href="/projects" className="bottom-nav-link">PROJECTS</Link>
             </div>
             <div className="contact-group">
@@ -119,7 +168,7 @@ export default function Footer() {
               <a href="https://www.linkedin.com/in/miriam-abbas-579104397/" target="_blank" rel="noopener noreferrer" className="bottom-nav-link contact-link">LinkedIn</a>
             </div>
           </div>
-          <div className="bottom-bar" style={styles.bottomBar} />
+          <div className="bottom-bar" style={{...styles.bottomBar, backgroundColor: barColor}} />
         </div>
         <div className="bottom-bar-base" />
       </div>
