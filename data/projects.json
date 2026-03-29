@@ -15,7 +15,7 @@
   },
   {
     "id": "2",
-    "title": "Weather App",
+    "title": "Let's Move",
     "description": "Eine Wetter-Anwendung mit echtzeitlichen Daten",
     "longDescription": "Zeigt aktuelle Wetterdaten mit 5-Tages-Vorhersage an",
     "technologies": ["React", "API Integration", "Tailwind CSS"],

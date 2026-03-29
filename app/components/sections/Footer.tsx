@@ -9,6 +9,7 @@ export default function Footer() {
   const router = useRouter();
   const [isAnimating, setIsAnimating] = useState(false);
   const [isReturning, setIsReturning] = useState(false);
+  const [clickedHref, setClickedHref] = useState<string | null>(null);
 
   const isBluePage = pathname === '/about';
 
@@ -30,6 +31,7 @@ export default function Footer() {
   const handleTransition = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (href === '/about' && href !== pathname) {
       e.preventDefault();
+      setClickedHref(href);
       setIsAnimating(true);
       // Dispatch an event so Hero knows to slide up
       window.dispatchEvent(new Event('navigatingToAbout'));
@@ -37,7 +39,10 @@ export default function Footer() {
       setTimeout(() => {
         router.push(href);
         // Reset after routing
-        setTimeout(() => setIsAnimating(false), 100);
+        setTimeout(() => {
+          setIsAnimating(false);
+          setClickedHref(null);
+        }, 100);
       }, 600); // 600ms corresponds to transition time
     }
   };
@@ -80,23 +85,29 @@ export default function Footer() {
           100% { transform: translateY(calc(100vh - 60px)); opacity: 0; }
         }
 
+        .footer-bottom-wrapper.animating-up,
         .footer-bottom-wrapper.animating-down {
-          animation: slideDownFooter 0.6s cubic-bezier(0.85, 0, 0.15, 1) forwards;
-          z-index: 100000;
-          position: relative;
-        }
-        .footer-bottom-wrapper.animating-up {
-          animation: slideUpFooter 0.6s cubic-bezier(0.85, 0, 0.15, 1) forwards;
           z-index: 100000;
           position: relative;
         }
 
-        @keyframes slideDownFooter {
+        .bottom-nav-link.riding-up {
+          animation: slideUpLink 0.6s cubic-bezier(0.85, 0, 0.15, 1) forwards;
+          z-index: 100000;
+          position: relative;
+        }
+        .bottom-nav-link.riding-down {
+          animation: slideDownLink 0.6s cubic-bezier(0.85, 0, 0.15, 1) forwards;
+          z-index: 100000;
+          position: relative;
+        }
+
+        @keyframes slideDownLink {
           0% { transform: translateY(calc(-100vh + 60px)); }
           100% { transform: translateY(0); }
         }
         
-        @keyframes slideUpFooter {
+        @keyframes slideUpLink {
           0% { transform: translateY(0); }
           100% { transform: translateY(calc(-100vh + 60px)); }
         }
@@ -227,7 +238,11 @@ export default function Footer() {
         <div style={styles.navLinksContainer}>
           <div className="nav-links-inner">
             <div className="nav-group">
-              <Link href="/about" className="bottom-nav-link" onClick={(e) => handleTransition(e, "/about")}>ABOUT ME</Link>
+              <Link 
+                href="/about" 
+                className={`bottom-nav-link ${(isAnimating && clickedHref === '/about') ? 'riding-up' : ''} ${isReturning ? 'riding-down' : ''}`} 
+                onClick={(e) => handleTransition(e, "/about")}
+              >ABOUT ME</Link>
               <Link href="/projects" className="bottom-nav-link">PROJECTS</Link>
             </div>
             <div className="contact-group">
