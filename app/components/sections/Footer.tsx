@@ -2,27 +2,44 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 
 export default function Footer() {
   const pathname = usePathname();
   const router = useRouter();
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isReturning, setIsReturning] = useState(false);
 
   const isBluePage = pathname === '/about';
 
+  // useLayoutEffect runs synchronously before browser paint
+  // This prevents any flash of content underneath before the blue overlay is rendered
+  // We use a fallback to useEffect for SSR environments
+  const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+
+  useIsomorphicLayoutEffect(() => {
+    const returning = sessionStorage.getItem('returningFromAbout') === 'true';
+    if (returning) {
+      setIsReturning(true);
+      setTimeout(() => {
+        setIsReturning(false);
+      }, 600);
+    }
+  }, [pathname]);
+
   const handleTransition = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    // If not on the current page, and going to about page
     if (href === '/about' && href !== pathname) {
       e.preventDefault();
       setIsAnimating(true);
+      // Dispatch an event so Hero knows to slide up
+      window.dispatchEvent(new Event('navigatingToAbout'));
+      
       setTimeout(() => {
         router.push(href);
-        // Reset state slightly after routing to be safe
+        // Reset after routing
         setTimeout(() => setIsAnimating(false), 100);
       }, 600); // 600ms corresponds to transition time
     }
-    // Could add reverse animation for other links, but let's stick to the requested one.
   };
 
   const navLinkColor = isBluePage ? '#ffffff' : '#451eff';
@@ -33,20 +50,55 @@ export default function Footer() {
       <style>{`
         .page-transition-overlay {
           position: fixed;
-          bottom: 0;
+          top: 0;
           left: 0;
-          width: 100%;
-          height: 60px;
+          width: 100vw;
+          height: 100vh;
           background-color: #451eff;
-          z-index: 99999;
+          z-index: 10000;
           pointer-events: none;
           opacity: 0;
-          transition: height 0.6s cubic-bezier(0.85, 0, 0.15, 1);
+          transform: translateY(calc(100vh - 60px));
         }
-        .page-transition-overlay.animating {
+        .page-transition-overlay.animating-up {
           opacity: 1;
-          height: 100vh;
-          transition: height 0.6s cubic-bezier(0.85, 0, 0.15, 1), opacity 0s;
+          animation: slideUpOverlay 0.6s cubic-bezier(0.85, 0, 0.15, 1) forwards;
+        }
+        .page-transition-overlay.animating-down {
+          opacity: 1;
+          animation: slideDownOverlay 0.6s cubic-bezier(0.85, 0, 0.15, 1) forwards;
+        }
+
+        @keyframes slideUpOverlay {
+          0% { transform: translateY(calc(100vh - 60px)); }
+          100% { transform: translateY(0); }
+        }
+
+        @keyframes slideDownOverlay {
+          0% { transform: translateY(0); opacity: 1; }
+          99% { transform: translateY(calc(100vh - 60px)); opacity: 1; }
+          100% { transform: translateY(calc(100vh - 60px)); opacity: 0; }
+        }
+
+        .footer-bottom-wrapper.animating-down {
+          animation: slideDownFooter 0.6s cubic-bezier(0.85, 0, 0.15, 1) forwards;
+          z-index: 100000;
+          position: relative;
+        }
+        .footer-bottom-wrapper.animating-up {
+          animation: slideUpFooter 0.6s cubic-bezier(0.85, 0, 0.15, 1) forwards;
+          z-index: 100000;
+          position: relative;
+        }
+
+        @keyframes slideDownFooter {
+          0% { transform: translateY(calc(-100vh + 60px)); }
+          100% { transform: translateY(0); }
+        }
+        
+        @keyframes slideUpFooter {
+          0% { transform: translateY(0); }
+          100% { transform: translateY(calc(-100vh + 60px)); }
         }
 
         .bottom-nav-link {
@@ -152,10 +204,26 @@ export default function Footer() {
         }
       `}</style>
 
-      {/* Full screen animation overlay */}
-      <div className={`page-transition-overlay ${isAnimating ? 'animating' : ''}`} />
+      {/* Transition overlay */}
+      <div className={`page-transition-overlay ${isAnimating ? 'animating-up' : ''} ${isReturning ? 'animating-down' : ''}`}>
+        {(isAnimating || isReturning) && (
+          <div style={styles.fakeAboutMe}>
+            <div style={styles.fakeBackButton}>BACK</div>
+            <div style={styles.fakeContent}>
+              <p style={styles.fakeText}>
+                Hi there, my name is Miriam! <br /> <br />
+                I am an Informatics and Design student in Munich specializing in the intersection
+                of technical logic and user-centered design. Currently, I’m diving deep into Python,
+                JavaScript, and AI to create modern websites and AI-driven projects. Beyond coding,
+                I’m passionate about agile project organization, combining efficient workflows with
+                a human-centered approach to build digital solutions that really work for people.
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
 
-      <div className="footer-bottom-wrapper">
+      <div className={`footer-bottom-wrapper ${isAnimating ? 'animating-up' : ''} ${isReturning ? 'animating-down' : ''}`}>
         <div style={styles.navLinksContainer}>
           <div className="nav-links-inner">
             <div className="nav-group">
@@ -177,6 +245,43 @@ export default function Footer() {
 }
 
 const styles = {
+  fakeAboutMe: {
+    position: 'absolute' as const,
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100vh',
+    pointerEvents: 'none' as const,
+    color: '#fff',
+  },
+  fakeBackButton: {
+    position: "absolute" as const,
+    top: "3rem",
+    left: "3rem",
+    padding: "0.5rem",
+    fontSize: "1.2rem",
+    fontWeight: 400,
+    fontFamily: "Gasoek One, sans-serif",
+    letterSpacing: "0.05em",
+    color: "#ffffff",
+    zIndex: 20,
+  },
+  fakeContent: {
+    width: "80%",
+    marginTop: "21rem",
+    marginLeft: "3rem",
+    marginRight: "1.3rem",
+  },
+  fakeText: {
+    textAlign: "left" as const,
+    letterSpacing: "-0.03rem",
+    fontFamily: "Funnel Sans, sans-serif",
+    fontSize: "2.5rem",
+    fontWeight: 500,
+    lineHeight: 1.11,
+    color: "#ffffff",
+    margin: 0,
+  },
   navLinksContainer: {
     position: 'fixed' as const,
     bottom: 0,

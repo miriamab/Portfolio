@@ -1,62 +1,44 @@
 "use client";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function AboutMe() {
   const router = useRouter();
-  const [isClosing, setIsClosing] = useState(false);
 
   const handleBack = () => {
-    if (isClosing) return;
-    setIsClosing(true);
-
-    setTimeout(() => {
-      router.push("/", { scroll: false });
-    }, 600);
+    sessionStorage.setItem('returningFromAbout', 'true');
+    router.push("/", { scroll: false });
   };
 
   return (
     <>
       <style>{`
-        @keyframes slideDownFull {
-          0% { transform: translateY(0); height: 100vh; }
-          100% { transform: translateY(calc(100vh - 60px)); height: 60px; }
-        }
-
         .about-me-wrapper {
-          min-height: 100vh;
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100vh;
+          width: 100vw;
           display: flex;
           background: #451eff;
           color: #fff;
-          position: relative;
           z-index: 9999;
-          transform-origin: bottom;
-        }
-
-        .about-me-wrapper.closing {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100vw;
           overflow: hidden;
-          animation: slideDownFull 0.6s cubic-bezier(0.85, 0, 0.15, 1) forwards;
-          pointer-events: none;
         }
       `}</style>
 
-      <section className={`about-me-wrapper ${isClosing ? "closing" : ""}`}>
-        <button onClick={handleBack} style={styles.backButton}>
+      <section className="about-me-wrapper">
+        <button className="about-me-button" onClick={handleBack} style={styles.backButton}>
           BACK
         </button>
-        <div style={styles.content}>
+        <div className="about-me-content" style={styles.content}>
           <p style={styles.text}>
             Hi there, my name is Miriam! <br /> <br />
-            I am an Informatics and Design student in Munich specializing in the intersection
-            of technical logic and user-centered design. Currently, I’m diving deep into Python,
-            JavaScript, and AI to create modern websites and AI-driven projects. Beyond coding,
-            I’m passionate about agile project organization, combining efficient workflows with
-            a human-centered approach to build digital solutions that really work for people.
-          </p>
+              I am an Informatics and Design student in Munich specializing in the intersection
+              of technical logic and user-centered design. Currently, I’m diving deep into Python,
+              JavaScript, and AI to create modern websites and AI-driven projects. Beyond coding,
+              I’m passionate about agile project organization, combining efficient workflows with
+              a human-centered approach to build digital solutions that really work for people.
+            </p>
         </div>
       </section>
     </>
