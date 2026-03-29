@@ -18,7 +18,7 @@ export default function Hero() {
     if (sessionStorage.getItem('returningFromAbout') === 'true') {
       setIsEnteringDown(true);
       setTimeout(() => setIsEnteringDown(false), 600);
-      sessionStorage.removeItem('returningFromAbout');
+      // Removed the synchronous sessionStorage.removeItem so Footer can also read it!
     }
   }, []);
 

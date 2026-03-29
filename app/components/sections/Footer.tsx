@@ -24,6 +24,7 @@ export default function Footer() {
       setIsReturning(true);
       setTimeout(() => {
         setIsReturning(false);
+        sessionStorage.removeItem('returningFromAbout');
       }, 600);
     }
   }, [pathname]);
