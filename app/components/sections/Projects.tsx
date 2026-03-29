@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { useRouter } from "next/navigation";
+import projectsData from "../../../data/projects.json";
 
 interface Project {
   id: string;
@@ -20,24 +22,24 @@ interface Project {
 }
 
 export default function Projects() {
+  const router = useRouter();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const handleBack = () => {
+    // sessionStorage.setItem('returningFromProjects', 'true'); // if we want to add animations later
+    router.push("/", { scroll: false });
+  };
+
   useEffect(() => {
-    const fetchProjects = async () => {
+    // Simulieren eines kurzen Ladevorgangs wie beim Fetch, damit Animation/UI flüssig bleiben
+    const loadProjects = () => {
       try {
-        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
-        const response = await fetch(`${backendUrl}/api/projects`);
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch projects');
-        }
-        
-        const data = await response.json();
-        setProjects(data);
+        // Projekte aus der lokalen JSON importieren
+        setProjects(projectsData as Project[]);
       } catch (err) {
         console.error('Error fetching projects:', err);
         setError('Projekte konnten nicht geladen werden');
@@ -46,7 +48,7 @@ export default function Projects() {
       }
     };
 
-    fetchProjects();
+    loadProjects();
   }, []);
 
   const closeModal = () => {
@@ -73,9 +75,9 @@ export default function Projects() {
   if (loading) {
     return (
       <section id="projects" style={styles.section}>
+        <button onClick={handleBack} style={styles.backButton}>BACK</button>
         <div style={styles.content}>
-          <h2 style={styles.title}>Projects</h2>
-          <p>Lädt Projekte...</p>
+          <p style={{color: '#fff'}}>Lädt Projekte...</p>
         </div>
       </section>
     );
@@ -84,9 +86,9 @@ export default function Projects() {
   if (error) {
     return (
       <section id="projects" style={styles.section}>
+        <button onClick={handleBack} style={styles.backButton}>BACK</button>
         <div style={styles.content}>
-          <h2 style={styles.title}>Projects</h2>
-          <p style={{color: 'red'}}>{error}</p>
+          <p style={{color: 'white'}}>{error}</p>
         </div>
       </section>
     );
@@ -94,6 +96,7 @@ export default function Projects() {
 
   return (
     <section id="projects" style={styles.section}>
+      <button onClick={handleBack} style={styles.backButton}>BACK</button>
       <div style={styles.content}>
         <style>{`
           .project-preview-wrapper {
@@ -103,7 +106,7 @@ export default function Projects() {
             cursor: pointer;
             border-radius: 4px;
             overflow: hidden;
-            background-color: #451eff;
+            background-color: #ffffff;
             transition: all 0.3s ease;
           }
           .project-preview-overlay {
@@ -112,7 +115,7 @@ export default function Projects() {
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #451eff;
+            background-color: #ffffff;
             transition: opacity 0.3s ease;
             z-index: 2;
             padding: 1.5rem;
@@ -121,7 +124,7 @@ export default function Projects() {
             opacity: 0;
           }
           .project-preview-title {
-            color: #ffffff;
+            color: #451eff;
             font-size: 1.5rem;
             font-weight: 500;
             text-align: center;
@@ -134,7 +137,7 @@ export default function Projects() {
             opacity: 0;
             transition: opacity 0.3s ease;
             z-index: 1;
-            border: 1px solid #451eff;
+            border: 1px solid #ffffff;
             border-radius: 4px;
             box-sizing: border-box;
             background-color: #ffffff;
@@ -149,7 +152,6 @@ export default function Projects() {
             border-radius: 3px;
           }
         `}</style>
-        <h2 style={styles.title}>Projects</h2>
         <div className="projects-grid" style={styles.projectsGrid}>
           {projects.map((project) => (
             <div
@@ -291,14 +293,33 @@ export default function Projects() {
 }
 
 const styles = {
+  backButton: {
+    position: 'absolute' as const,
+    top: '3rem',
+    left: '3rem',
+    padding: '0.5rem',
+    fontSize: '1.2rem',
+    fontWeight: 400,
+    fontFamily: 'Gasoek One, sans-serif',
+    letterSpacing: '0.05em',
+    color: '#ffffff',
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    zIndex: 100,
+  },
   section: {
-    minHeight: 'auto',
+    position: 'absolute' as const,
+    top: 0,
+    left: 0,
+    width: '100vw',
+    minHeight: '100vh',
+    backgroundColor: '#451eff',
     display: 'flex',
-    alignItems: 'center',
-    padding: '2rem 2rem',
-    color: '#451eff',
-    position: 'relative' as const,
-    zIndex: 1,
+    justifyContent: 'center',
+    padding: '8rem 2rem 4rem 2rem', // Genug Platz oben für den Back Button
+    color: '#ffffff',
+    zIndex: 9999,
   },
   content: {
     maxWidth: '1400px',
