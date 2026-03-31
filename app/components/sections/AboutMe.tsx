@@ -24,12 +24,39 @@ export default function AboutMe() {
           z-index: 9999;
           overflow: hidden;
         }
+        .about-me-image-container {
+          position: absolute;
+          top: 4rem;
+          right: 8rem;
+          width: 16vw;
+          max-width: 280px;
+          min-width: 180px;
+          aspect-ratio: 3 / 4;
+          overflow: hidden;
+          /* Organische Form, leicht unregelmäßig wie ein weicher Kieselstein / Tropfen */
+          border-radius: 40% 60% 65% 35% / 40% 45% 55% 60%;
+        }
+        .about-me-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+        @media (max-width: 768px) {
+          .about-me-image-container {
+            top: 6rem;
+            right: 2rem;
+            width: 32vw;
+          }
+        }
       `}</style>
 
       <section className="about-me-wrapper">
         <button className="about-me-button" onClick={handleBack} style={styles.backButton}>
           BACK
         </button>
+        <div className="about-me-image-container">
+          <img src="/profile.jpg" alt="Miriam Abbas" className="about-me-image" />
+        </div>
         <div className="about-me-content" style={styles.content}>
           <p style={styles.text}>
             Hi there, my name is Miriam! <br /> <br />

@@ -227,16 +227,46 @@ export default function Footer() {
           <div style={styles.fakePage}>
             <div style={styles.fakeBackButton}>BACK</div>
             {(clickedHref === '/about' || returningFrom === '/about') && (
-              <div style={styles.fakeContentAbout}>
-                <p style={styles.fakeText}>
-                  Hi there, my name is Miriam! <br /> <br />
-                  I am an Informatics and Design student in Munich specializing in the intersection
-                  of technical logic and user-centered design. Currently, I’m diving deep into Python,
-                  JavaScript, and AI to create modern websites and AI-driven projects. Beyond coding,
-                  I’m passionate about agile project organization, combining efficient workflows with
-                  a human-centered approach to build digital solutions that really work for people.
-                </p>
-              </div>
+              <>
+                <style>{`
+                  .fake-about-me-image-container {
+                    position: absolute;
+                    top: 4rem;
+                    right: 8rem;
+                    width: 16vw;
+                    max-width: 280px;
+                    min-width: 180px;
+                    aspect-ratio: 3 / 4;
+                    overflow: hidden;
+                    border-radius: 40% 60% 65% 35% / 40% 45% 55% 60%;
+                  }
+                  .fake-about-me-image {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                  }
+                  @media (max-width: 768px) {
+                    .fake-about-me-image-container {
+                      top: 6rem;
+                      right: 2rem;
+                      width: 32vw;
+                    }
+                  }
+                `}</style>
+                <div className="fake-about-me-image-container">
+                  <img src="/profile.jpg" alt="Miriam Abbas" className="fake-about-me-image" />
+                </div>
+                <div style={styles.fakeContentAbout}>
+                  <p style={styles.fakeText}>
+                    Hi there, my name is Miriam! <br /> <br />
+                    I am an Informatics and Design student in Munich specializing in the intersection
+                    of technical logic and user-centered design. Currently, I’m diving deep into Python,
+                    JavaScript, and AI to create modern websites and AI-driven projects. Beyond coding,
+                    I’m passionate about agile project organization, combining efficient workflows with
+                    a human-centered approach to build digital solutions that really work for people.
+                  </p>
+                </div>
+              </>
             )}
             {(clickedHref === '/projects' || returningFrom === '/projects') && (
               <div style={styles.fakeContentProjects}>
