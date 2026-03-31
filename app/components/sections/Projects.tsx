@@ -120,6 +120,9 @@ export default function Projects() {
             padding: 0;
             border-radius: 30px;
           }
+          .project-preview-wrapper:hover {
+            transform: scale(0.96);
+          }
           .project-preview-wrapper:hover .project-preview-overlay {
             opacity: 0;
           }
