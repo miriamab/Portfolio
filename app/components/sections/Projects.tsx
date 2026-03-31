@@ -30,7 +30,7 @@ export default function Projects() {
   const [error, setError] = useState<string | null>(null);
 
   const handleBack = () => {
-    // sessionStorage.setItem('returningFromProjects', 'true'); // if we want to add animations later
+    sessionStorage.setItem('returningFromProjects', 'true');
     router.push("/", { scroll: false });
   };
 

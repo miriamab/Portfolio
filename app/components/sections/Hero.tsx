@@ -15,7 +15,7 @@ export default function Hero() {
   const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
   useIsomorphicLayoutEffect(() => {
-    if (sessionStorage.getItem('returningFromAbout') === 'true') {
+    if (sessionStorage.getItem('returningFromAbout') === 'true' || sessionStorage.getItem('returningFromProjects') === 'true') {
       setIsEnteringDown(true);
       setTimeout(() => setIsEnteringDown(false), 600);
       // Removed the synchronous sessionStorage.removeItem so Footer can also read it!

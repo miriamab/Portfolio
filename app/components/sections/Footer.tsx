@@ -3,12 +3,13 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect, useLayoutEffect } from 'react';
+import projectsData from '../../../data/projects.json';
 
 export default function Footer() {
   const pathname = usePathname();
   const router = useRouter();
   const [isAnimating, setIsAnimating] = useState(false);
-  const [isReturning, setIsReturning] = useState(false);
+  const [returningFrom, setReturningFrom] = useState<string | null>(null);
   const [clickedHref, setClickedHref] = useState<string | null>(null);
 
   const isBluePage = pathname === '/about';
@@ -19,18 +20,22 @@ export default function Footer() {
   const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
   useIsomorphicLayoutEffect(() => {
-    const returning = sessionStorage.getItem('returningFromAbout') === 'true';
-    if (returning) {
-      setIsReturning(true);
+    const returningAbout = sessionStorage.getItem('returningFromAbout') === 'true';
+    const returningProjects = sessionStorage.getItem('returningFromProjects') === 'true';
+    
+    if (returningAbout || returningProjects) {
+      const fromPath = returningAbout ? '/about' : '/projects';
+      setReturningFrom(fromPath);
       setTimeout(() => {
-        setIsReturning(false);
-        sessionStorage.removeItem('returningFromAbout');
+        setReturningFrom(null);
+        if (returningAbout) sessionStorage.removeItem('returningFromAbout');
+        if (returningProjects) sessionStorage.removeItem('returningFromProjects');
       }, 600);
     }
   }, [pathname]);
 
   const handleTransition = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (href === '/about' && href !== pathname) {
+    if ((href === '/about' || href === '/projects') && href !== pathname) {
       e.preventDefault();
       setClickedHref(href);
       setIsAnimating(true);
@@ -217,34 +222,85 @@ export default function Footer() {
       `}</style>
 
       {/* Transition overlay */}
-      <div className={`page-transition-overlay ${isAnimating ? 'animating-up' : ''} ${isReturning ? 'animating-down' : ''}`}>
-        {(isAnimating || isReturning) && (
-          <div style={styles.fakeAboutMe}>
+      <div className={`page-transition-overlay ${isAnimating ? 'animating-up' : ''} ${returningFrom ? 'animating-down' : ''}`}>
+        {(isAnimating || returningFrom) && (
+          <div style={styles.fakePage}>
             <div style={styles.fakeBackButton}>BACK</div>
-            <div style={styles.fakeContent}>
-              <p style={styles.fakeText}>
-                Hi there, my name is Miriam! <br /> <br />
-                I am an Informatics and Design student in Munich specializing in the intersection
-                of technical logic and user-centered design. Currently, I’m diving deep into Python,
-                JavaScript, and AI to create modern websites and AI-driven projects. Beyond coding,
-                I’m passionate about agile project organization, combining efficient workflows with
-                a human-centered approach to build digital solutions that really work for people.
-              </p>
-            </div>
+            {(clickedHref === '/about' || returningFrom === '/about') && (
+              <div style={styles.fakeContentAbout}>
+                <p style={styles.fakeText}>
+                  Hi there, my name is Miriam! <br /> <br />
+                  I am an Informatics and Design student in Munich specializing in the intersection
+                  of technical logic and user-centered design. Currently, I’m diving deep into Python,
+                  JavaScript, and AI to create modern websites and AI-driven projects. Beyond coding,
+                  I’m passionate about agile project organization, combining efficient workflows with
+                  a human-centered approach to build digital solutions that really work for people.
+                </p>
+              </div>
+            )}
+            {(clickedHref === '/projects' || returningFrom === '/projects') && (
+              <div style={styles.fakeContentProjects}>
+                <style>{`
+                  .fake-project-preview-wrapper {
+                    position: relative;
+                    width: 100%;
+                    aspect-ratio: 16 / 9;
+                    border-radius: 30px;
+                    background-color: transparent;
+                  }
+                  .fake-project-preview-overlay {
+                    position: absolute;
+                    inset: 0;
+                    display: flex;
+                    align-items: flex-end;
+                    justify-content: flex-start;
+                    background-color: #ffffff;
+                    z-index: 2;
+                    padding: 0;
+                    border-radius: 30px;
+                  }
+                  .fake-project-preview-title {
+                    color: #451eff;
+                    font-size: 5rem;
+                    font-weight: 500;
+                    text-align: left;
+                    margin: 0 0 0 -0.05em;
+                    line-height: 0.85;
+                    font-family: 'Gasoek One', sans-serif;
+                    letter-spacing: 0.05em;
+                  }
+                `}</style>
+                <div style={styles.fakeContentProjectsInner}>
+                  <div style={styles.projectsGrid}>
+                    {projectsData.map((project: any) => (
+                      <div key={project.id} className="fake-project-preview-wrapper">
+                        <div className="fake-project-preview-overlay">
+                          <h3 className="fake-project-preview-title">{project.title}</h3>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
 
-      <div className={`footer-bottom-wrapper ${isAnimating ? 'animating-up' : ''} ${isReturning ? 'animating-down' : ''}`}>
+      <div className={`footer-bottom-wrapper ${isAnimating ? 'animating-up' : ''} ${returningFrom ? 'animating-down' : ''}`}>
         <div style={styles.navLinksContainer}>
           <div className="nav-links-inner">
             <div className="nav-group">
               <Link 
                 href="/about" 
-                className={`bottom-nav-link ${(isAnimating && clickedHref === '/about') ? 'riding-up' : ''} ${isReturning ? 'riding-down' : ''}`} 
+                className={`bottom-nav-link ${(isAnimating && clickedHref === '/about') ? 'riding-up' : ''} ${returningFrom === '/about' ? 'riding-down' : ''}`} 
                 onClick={(e) => handleTransition(e, "/about")}
               >ABOUT ME</Link>
-              <Link href="/projects" className="bottom-nav-link">PROJECTS</Link>
+              <Link 
+                href="/projects" 
+                className={`bottom-nav-link ${(isAnimating && clickedHref === '/projects') ? 'riding-up' : ''} ${returningFrom === '/projects' ? 'riding-down' : ''}`}
+                onClick={(e) => handleTransition(e, "/projects")}
+              >PROJECTS</Link>
             </div>
             <div className="contact-group">
               <a href="mailto:miriam.abbas@hm.edu" className="bottom-nav-link contact-link">Email</a>
@@ -261,7 +317,7 @@ export default function Footer() {
 }
 
 const styles = {
-  fakeAboutMe: {
+  fakePage: {
     position: 'absolute' as const,
     top: 0,
     left: 0,
@@ -282,11 +338,28 @@ const styles = {
     color: "#ffffff",
     zIndex: 20,
   },
-  fakeContent: {
+  fakeContentAbout: {
     width: "80%",
     marginTop: "21rem",
     marginLeft: "3rem",
     marginRight: "1.3rem",
+  },
+  fakeContentProjects: {
+    maxWidth: '100%',
+    width: '100%',
+    padding: '8rem 1rem 2rem 1rem',
+    boxSizing: 'border-box' as const,
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  fakeContentProjectsInner: {
+    maxWidth: '100%',
+    width: '100%',
+  },
+  projectsGrid: {
+    display: 'grid' as const,
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: '1rem',
   },
   fakeText: {
     textAlign: "left" as const,
