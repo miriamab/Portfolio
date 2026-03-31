@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import projectsData from "../../../data/projects.json";
 
 interface Project {
@@ -23,8 +23,6 @@ interface Project {
 
 export default function Projects() {
   const router = useRouter();
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -51,33 +49,12 @@ export default function Projects() {
     loadProjects();
   }, []);
 
-  const closeModal = () => {
-    setSelectedProject(null);
-    setCurrentImageIndex(0);
-  };
-
-  const nextImage = () => {
-    if (selectedProject && selectedProject.images.length > 0) {
-      setCurrentImageIndex((prev) => 
-        prev < selectedProject.images.length - 1 ? prev + 1 : prev
-      );
-    }
-  };
-
-  const previousImage = () => {
-    if (selectedProject && selectedProject.images.length > 0) {
-      setCurrentImageIndex((prev) => 
-        prev > 0 ? prev - 1 : prev
-      );
-    }
-  };
-
   if (loading) {
     return (
       <section id="projects" style={styles.section}>
         <button onClick={handleBack} style={styles.backButton}>BACK</button>
         <div style={styles.content}>
-          <p style={{color: '#fff'}}>Lädt Projekte...</p>
+          <p style={{color: '#fff'}}>Loading projects...</p>
         </div>
       </section>
     );
@@ -158,10 +135,11 @@ export default function Projects() {
         `}</style>
         <div className="projects-grid" style={styles.projectsGrid}>
           {projects.map((project) => (
-            <div
+            <Link
               key={project.id}
-              onClick={() => setSelectedProject(project)}
+              href={`/projects/${project.id}`}
               className="project-preview-wrapper"
+              style={{ display: "block", textDecoration: "none" }}
             >
               <div className="project-preview-overlay">
                 <h3 className="project-preview-title">{project.title}</h3>
@@ -175,124 +153,16 @@ export default function Projects() {
                   />
                 ) : (
                   <div style={{width: '100%', height: '100%', backgroundColor: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#999', borderRadius: '3px'}}>
-                    Kein Bild
+                    No Image
                   </div>
                 )}
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
 
-      {/* Modal */}
-      {selectedProject !== null && createPortal(
-        <div style={styles.modalOverlay} onClick={closeModal}>
-          <div style={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-            <button
-              onClick={closeModal}
-              style={styles.closeButton}
-              aria-label="Close"
-            >
-              ✕
-            </button>
-            <h2 style={styles.modalTitle}>{selectedProject.title}</h2>
-            {(selectedProject.startDate || selectedProject.endDate) && (
-              <div style={styles.modalDateRange}>
-                {selectedProject.startDate} {selectedProject.startDate && selectedProject.endDate && '—'} {selectedProject.endDate}
-              </div>
-            )}
-            <div style={styles.carouselContainer}>
-              {selectedProject.images && selectedProject.images.length > 0 ? (
-                <>
-                  <button 
-                    onClick={previousImage}
-                    style={{
-                      ...styles.carouselButton,
-                      opacity: currentImageIndex === 0 ? 0.3 : 1,
-                      cursor: currentImageIndex === 0 ? 'not-allowed' : 'pointer'
-                    }}
-                    disabled={currentImageIndex === 0}
-                    aria-label="Previous image"
-                  >
-                    ‹
-                  </button>
-                  <div style={styles.carouselImageWrapper}>
-                    <img 
-                      src={selectedProject.images[currentImageIndex]}
-                      alt={`${selectedProject.title} ${currentImageIndex + 1}`}
-                      style={styles.carouselImage}
-                    />
-                    <div style={styles.imageCounter}>
-                      {currentImageIndex + 1} / {selectedProject.images.length}
-                    </div>
-                  </div>
-                  <button 
-                    onClick={nextImage}
-                    style={{
-                      ...styles.carouselButton,
-                      opacity: currentImageIndex === selectedProject.images.length - 1 ? 0.3 : 1,
-                      cursor: currentImageIndex === selectedProject.images.length - 1 ? 'not-allowed' : 'pointer'
-                    }}
-                    disabled={currentImageIndex === selectedProject.images.length - 1}
-                    aria-label="Next image"
-                  >
-                    ›
-                  </button>
-                </>
-              ) : (
-                <div style={styles.modalImagePlaceholder}>Kein Bild verfügbar</div>
-              )}
-            </div>
-            <p style={styles.modalDescription}>
-              {selectedProject.longDescription || selectedProject.description}
-            </p>
-            {selectedProject.attributes && selectedProject.attributes.length > 0 && (
-              <div style={styles.modalAttributesContainer}>
-                <h3 style={styles.modalSubtitle}>Eigenschaften:</h3>
-                <div style={styles.modalAttributesList}>
-                  {selectedProject.attributes.map((attr, idx) => (
-                    <span key={idx} style={styles.modalAttributeTag}>{attr}</span>
-                  ))}
-                </div>
-              </div>
-            )}
-            <div style={styles.modalAttributesContainer}>
-              <h3 style={styles.modalSubtitle}>Technologien:</h3>
-              <div style={styles.modalAttributesList}>
-                {selectedProject.technologies.map((tech, idx) => (
-                  <span key={idx} style={styles.modalAttribute}>{tech}</span>
-                ))}
-              </div>
-            </div>
-            {(selectedProject.githubUrl || selectedProject.liveUrl) && (
-              <div style={styles.modalLinks}>
-                {selectedProject.githubUrl && (
-                  <a 
-                    href={selectedProject.githubUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    style={styles.modalLink}
-                  >
-                    GitHub →
-                  </a>
-                )}
-                {selectedProject.liveUrl && (
-                  <a 
-                    href={selectedProject.liveUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    style={styles.modalLink}
-                  >
-                    Live Demo →
-                  </a>
-                )}
-              </div>
-            )}
-          </div>
-        </div>,
-        document.body
-      )}
-    </section>
+      </section>
   );
 }
 
