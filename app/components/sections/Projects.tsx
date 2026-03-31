@@ -104,30 +104,32 @@ export default function Projects() {
             width: 100%;
             aspect-ratio: 16 / 9;
             cursor: pointer;
-            border-radius: 4px;
-            overflow: hidden;
-            background-color: #ffffff;
+            border-radius: 30px;
+            background-color: transparent;
             transition: all 0.3s ease;
           }
           .project-preview-overlay {
             position: absolute;
             inset: 0;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            align-items: flex-end;
+            justify-content: flex-start;
             background-color: #ffffff;
             transition: opacity 0.3s ease;
             z-index: 2;
-            padding: 1.5rem;
+            padding: 0;
+            border-radius: 30px;
           }
           .project-preview-wrapper:hover .project-preview-overlay {
             opacity: 0;
           }
           .project-preview-title {
             color: #451eff;
-            font-size: 1.5rem;
+            font-size: 5rem;
             font-weight: 500;
-            text-align: center;
+            text-align: left;
+            margin: 0 0 0 -0.05em;
+            line-height: 0.85;
             font-family: 'Gasoek One', sans-serif;
             letter-spacing: 0.05em;
           }
@@ -137,8 +139,7 @@ export default function Projects() {
             opacity: 0;
             transition: opacity 0.3s ease;
             z-index: 1;
-            border: 1px solid #ffffff;
-            border-radius: 4px;
+            border-radius: 30px;
             box-sizing: border-box;
             background-color: #ffffff;
           }
@@ -149,7 +150,7 @@ export default function Projects() {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 3px;
+            border-radius: 30px;
           }
         `}</style>
         <div className="projects-grid" style={styles.projectsGrid}>
@@ -312,17 +313,17 @@ const styles = {
     position: 'absolute' as const,
     top: 0,
     left: 0,
-    width: '100vw',
+    width: '100%',
     minHeight: '100vh',
     backgroundColor: '#451eff',
     display: 'flex',
     justifyContent: 'center',
-    padding: '8rem 2rem 4rem 2rem', // Genug Platz oben für den Back Button
+    padding: '8rem 1rem 2rem 1rem', // Minimaler Abstand zum Seitenrand
     color: '#ffffff',
     zIndex: 9999,
   },
   content: {
-    maxWidth: '1400px',
+    maxWidth: '100%',
     width: '100%',
   },
   title: {
@@ -336,7 +337,7 @@ const styles = {
   projectsGrid: {
     display: 'grid' as const,
     gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '2rem',
+    gap: '1rem',
   },
   projectCard: {
     padding: '1.5rem',
