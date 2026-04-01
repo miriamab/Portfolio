@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
 interface Dot {
   x: number;
@@ -20,6 +21,7 @@ interface MousePosition {
 }
 
 export default function DotGrid() {
+  const pathname = usePathname();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const dotsRef = useRef<Dot[]>([]);
   const mouseRef = useRef({ x: -1000, y: -1000 });
@@ -240,6 +242,8 @@ export default function DotGrid() {
     };
   }, []);
 
+  const isProjectSingleView = pathname?.startsWith("/projects/") && pathname !== "/projects";
+
   return (
     <canvas
       ref={canvasRef}
@@ -251,6 +255,7 @@ export default function DotGrid() {
         height: "100vh",
         pointerEvents: "none",
         zIndex: 0,
+        display: isProjectSingleView ? "none" : "block",
       }}
     />
   );
