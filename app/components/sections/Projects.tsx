@@ -20,6 +20,7 @@ interface Project {
   order?: number;
   startDate?: string;
   endDate?: string;
+  displayTitle?: string;
 }
 
 export default function Projects() {
@@ -113,6 +114,8 @@ export default function Projects() {
             line-height: 0.85;
             font-family: 'Gasoek One', sans-serif;
             letter-spacing: 0.05em;
+            white-space: pre-wrap;
+            word-break: break-word;
           }
           .project-preview-image-container {
             position: absolute;
@@ -143,7 +146,7 @@ export default function Projects() {
               style={{ display: "block", textDecoration: "none" }}
             >
               <div className="project-preview-overlay">
-                <h3 className="project-preview-title">{project.title}</h3>
+                <h3 className="project-preview-title">{project.displayTitle || project.title}</h3>
               </div>
               <div className="project-preview-image-container">
                 {project.images && project.images.length > 0 ? (

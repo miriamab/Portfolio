@@ -20,6 +20,7 @@ interface Project {
   startDate?: string;
   endDate?: string;
   year?: string;
+  [key: string]: any;
 }
 
 export default async function ProjectDetail({
@@ -247,48 +248,58 @@ export default async function ProjectDetail({
           </div>
 
           {/* Links */}
-          {(project.githubUrl || project.liveUrl) && (
-            <div style={{ display: "flex", gap: "2.5rem", marginTop: "1rem" }}>
-              {project.githubUrl && (
-                <a 
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    color: "#451eff",
-                    textDecoration: "none",
-                    fontSize: "clamp(1.2rem, 2.5vw, 1.8rem)",
-                    fontFamily: "'Gasoek One', sans-serif",
-                    display: "flex",
-                    alignItems: "center",
-                    letterSpacing: "0.02em",
-                    textTransform: "uppercase"
-                  }}
-                >
-                  GitHub
-                </a>
-              )}
-              {project.liveUrl && (
-                <a 
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    color: "#451eff",
-                    textDecoration: "none",
-                    fontSize: "clamp(1.2rem, 2.5vw, 1.8rem)",
-                    fontFamily: "'Gasoek One', sans-serif",
-                    display: "flex",
-                    alignItems: "center",
-                    letterSpacing: "0.02em",
-                    textTransform: "uppercase"
-                  }}
-                >
-                  Live Demo
-                </a>
-              )}
-            </div>
-          )}
+          {(() => {
+            const urlKeys = Object.keys(project).filter(k => k.toLowerCase().endsWith('url') && typeof project[k] === 'string');
+            
+            if (urlKeys.length === 0) return null;
+
+            return (
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "2.5rem", marginTop: "1rem" }}>
+                <style>{`
+                  .project-action-link {
+                    transition: transform 0.3s ease;
+                    display: inline-block;
+                  }
+                  .project-action-link:hover {
+                    transform: translateY(-8px);
+                  }
+                `}</style>
+                {urlKeys.map((key) => {
+                  let label = key.replace(/url$/i, '');
+                  if (label.toLowerCase() === 'github') label = 'GitHub';
+                  else if (label.toLowerCase() === 'live') label = 'Live Demo';
+                  else if (label.toLowerCase() === 'website') label = 'Website';
+                  else if (label.toLowerCase() === 'huggingface') label = 'HuggingFace';
+                  else {
+                    label = label.replace(/([A-Z])/g, ' $1').trim();
+                    label = label.charAt(0).toUpperCase() + label.slice(1);
+                  }
+                  
+                  return (
+                    <a 
+                      key={key}
+                      href={project[key]}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="project-action-link"
+                      style={{
+                        color: "#451eff",
+                        textDecoration: "none",
+                        fontSize: "clamp(1.2rem, 2.5vw, 1.8rem)",
+                        fontFamily: "'Gasoek One', sans-serif",
+                        display: "flex",
+                        alignItems: "center",
+                        letterSpacing: "0.02em",
+                        textTransform: "uppercase"
+                      }}
+                    >
+                      {label}
+                    </a>
+                  );
+                })}
+              </div>
+            );
+          })()}
 
         </div>
       </ParallaxScrollBlock>

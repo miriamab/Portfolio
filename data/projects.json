@@ -8,19 +8,20 @@
     "attributes": ["Group project", "University project", "Chatbot Game"],
     "role": ["Developer", "Project management"],
     "images": ["/project-images/project1/screenshot_landing.png", "/project-images/project1/screenshot_game.png"],
-    "githubUrl": "https://github.com/yourusername/portfolio",
+    "githubUrl": "https://github.com/ID-Start-Winter24/Case-Unknown-Chatbot-Detective",
     "year": "2024"
   },
   {
     "id": "2",
     "title": "The REM Project",
     "description": "An interactive Three.js escape room game exploring the boundary between dreams and reality.",
-    "longDescription": "The REM Projekt is an immersive 3D experience developed as part of a collaborative university module. Set in a surreal dreamland, players have to solve interactive puzzle chains. The game uses a modular architecture to blend narrative cutscenes with real-time gameplay. It explores themes of sleep deprivation and subconscious unrest through a unique and dreamy aesthetic, utilizing advanced Three.js features like custom raycasting, spatial audio, and dynamic environmental effects to create a hauntingly atmospheric journey.",
+    "longDescription": "The REM Projekt is an immersive 3D experience developed as part of a collaborative university module. Set in a surreal dreamland, players have to solve interactive puzzle chains. The game uses a modular architecture to blend narrative cutscenes with real-time gameplay. It explores themes of sleep deprivation and subconscious unrest through a unique and dreamy aesthetic, utilizing advanced Three.js features like custom raycasting, spatial audio, and dynamic environmental effects to create a hauntingly atmospheric journey. The game is available on HuggingFace Spaces (Link below).",
     "technologies": ["Three.js", "JavaScript", "GitLab"],
     "attributes": ["University project", "Group project", "3D Web Game", "Agile/Scrum"],
     "role": ["Scrum Master", "Developer", "GitLab Maintainer"],
     "images": ["/project-images/project2/projekt1-bild1.png", "/project-images/project2/projekt1-bild2.png", "/project-images/project2/projekt1-bild3.png"],
-    "githubUrl": "https://github.com/yourusername/portfolio",
+    "githubUrl": "https://github.com/miriamab/The-REM-Project",
+    "HuggingFaceUrl": "https://huggingface.co/spaces/miriamab/The-REM-Projekt",
     "year": "2025"
   },
   {
@@ -32,7 +33,7 @@
     "attributes": ["University project", "Group project", "Full-Stack Development", "Cybersecurity Research"],
     "role": ["Backend Lead", "Database Engineer", "Infrastructure"],
     "images": ["/project-images/project2/projekt1-bild1.png", "/project-images/project2/projekt1-bild2.png", "/project-images/project2/projekt1-bild3.png"],
-    "githubUrl": "https://github.com/yourusername/portfolio",
+    "githubUrl": "https://github.com/fionapiorek/Franz",
     "year": "2025"
   },
   {
@@ -44,19 +45,22 @@
     "attributes": ["University project", "Individual project", "Data Visualization"],
     "role": ["Developer", "UX Design"],
     "images": ["/project-images/project2/projekt1-bild1.png", "/project-images/project2/projekt1-bild2.png", "/project-images/project2/projekt1-bild3.png"],
-    "githubUrl": "https://github.com/yourusername/portfolio",
+    "githubUrl": "https://github.com/miriamab/LetsMove",
+    "WebsiteUrl": "https://miriamab.github.io/LetsMove/",
     "year": "2025"
   },
   {
     "id": "5",
     "title": "Laberfactory",
+    "displayTitle": "Laber\nfactory",
     "description": "A responsive Svelte web experience for a German podcast.",
     "longDescription": "Laberfactory is a modern podcast website built in Svelte. It includes a dynamic episodes tab, a news section, and smooth section snapping.",
     "technologies": ["Svelte", "Vite", "JavaScript", "CSS"],
     "attributes": ["Podcast website"],
     "role": ["Developer", "Frontend UX"],
     "images": ["/project-images/project2/projekt1-bild1.png", "/project-images/project2/projekt1-bild2.png", "/project-images/project2/projekt1-bild3.png"],
-    "githubUrl": "https://github.com/yourusername/portfolio",
+    "githubUrl": "https://github.com/miriamab/Laberfactory",
+    "WebsiteUrl": "https://laberfactory.de/",
     "year": "2026"
   }
 ]
