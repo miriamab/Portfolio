@@ -2,25 +2,25 @@
   {
     "id": "1",
     "title": "Case Unknown",
-    "description": "An interactive detective game built using a chatbot interface.",
+    "description": "An interactive detective game with a chatbot interface.",
     "longDescription": "Case Unknown is an interactive storytelling experience that challenges players to outsmart a cynical AI detective. Using a mix of memory fragments and strategic dialogue, players navigate a high-stakes interrogation designed with a time pressure element to increase tension. This project allowed me to explore the intersection of Generative AI and immersive game design, focusing on creating a cohesive, moody atmosphere. ",
     "technologies": ["Python", "Gradio", "OpenAI API", "GitHub", "CSS"],
     "attributes": ["Group project", "University project"],
+    "role": ["Developer", "Project management"],
     "images": ["/project-images/project1/screenshot_landing.png", "/project-images/project1/screenshot_game.png"],
     "githubUrl": "https://github.com/yourusername/portfolio",
-    "startDate": "Oct 2024",
-    "endDate": "Feb 2025"
+    "year": "2024"
   },
   {
     "id": "2",
     "title": "Let's Move",
     "description": "An interactive data archive exploring 70 months of personal athletic history.",
     "longDescription": "Let’s Move is a deep dive into five years of personal fitness data, transforming over 2,100 days of activity into a cohesive visual narrative. The project navigates through different scales of data—from a macro-overview of a 70-month training journey to the micro-anatomy of a single run. Built with a futuristic, minimalist aesthetic, it features an interactive grid system and a synchronized biometrics dashboard. This project explores the intersection of information design and personal storytelling, highlighting how global events like the pandemic lockdowns created unique, visible peaks in individual behavioral data.",
-    "technologies": ["Svelte 5", "D3.js", "SvelteKit", "Vite", "JavaScript", "CSS"],
+    "technologies": ["Svelte 5", "D3.js", "Vite", "JavaScript", "CSS"],
     "attributes": ["University project", "Individual project", "Data Visualization"],
+    "role": ["Developer", "Project management"],
     "images": ["/project-images/project2/projekt1-bild1.png", "/project-images/project2/projekt1-bild2.png", "/project-images/project2/projekt1-bild3.png"],
     "githubUrl": "https://github.com/yourusername/portfolio",
-    "startDate": "Oct 2025",
-    "endDate": "Feb 2026"
+    "year": "2025"
   }
 ]

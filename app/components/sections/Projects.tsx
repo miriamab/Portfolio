@@ -12,11 +12,12 @@ interface Project {
   longDescription?: string;
   technologies: string[];
   attributes?: string[];
+  role?: string[];
   images: string[];
   githubUrl?: string;
   liveUrl?: string;
-  featured: boolean;
-  order: number;
+  featured?: boolean;
+  order?: number;
   startDate?: string;
   endDate?: string;
 }
