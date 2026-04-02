@@ -23,6 +23,42 @@ interface Project {
   [key: string]: any;
 }
 
+const renderMedia = (src: string, alt: string) => {
+  const isVideo = src.match(/\.(mp4|webm|ogg)$/i);
+  const mediaStyle = {
+    width: "100%",
+    height: "auto",
+    display: "block",
+    margin: 0,
+    padding: 0,
+    objectFit: "cover" as const,
+    borderRadius: "30px",
+    boxShadow: "0 4px 20px rgba(0,0,0,0.05)"
+  };
+
+  if (isVideo) {
+    return (
+      <video
+        key={src}
+        src={src}
+        autoPlay
+        loop
+        muted
+        playsInline
+        style={mediaStyle}
+      />
+    );
+  }
+  return (
+    <img 
+      key={src}
+      src={src}
+      alt={alt}
+      style={mediaStyle}
+    />
+  );
+};
+
 export default async function ProjectDetail({
   params,
 }: {
@@ -79,20 +115,7 @@ export default async function ProjectDetail({
       {/* First Image at the top */}
       <div style={{ display: "flex", flexDirection: "column", width: "100%", backgroundColor: "#ffffff", padding: "2rem 2rem 0 2rem", boxSizing: "border-box" }}>
         {project.images && project.images.length > 0 ? (
-          <img 
-            src={project.images[0]}
-            alt={`${project.title} cover`}
-            style={{
-              width: "100%",
-              height: "auto",
-              display: "block",
-              margin: 0,
-              padding: 0,
-              objectFit: "cover",
-              borderRadius: "30px",
-              boxShadow: "0 4px 20px rgba(0,0,0,0.05)"
-            }}
-          />
+          renderMedia(project.images[0], `${project.title} cover`)
         ) : (
           <div style={{ padding: "2rem", color: "#451eff", textAlign: "center", backgroundColor: "#ffffff" }}>No image available</div>
         )}
@@ -103,38 +126,26 @@ export default async function ProjectDetail({
         description={project.description} 
       />
 
-      {/* Remaining Images */}
+      {/* Images 2 and 3 */}
       {project.images && project.images.length > 1 && (
-        <div style={{ display: "flex", flexDirection: "column", width: "100%", backgroundColor: "#ffffff", padding: "0 2rem", boxSizing: "border-box", gap: "2rem" }}>
-          {project.images.slice(1).map((img, index) => (
-            <img 
-              key={index}
-              src={img}
-              alt={`${project.title} screenshot ${index + 2}`}
-              style={{
-                width: "100%",
-                height: "auto",
-                display: "block",
-                margin: 0,
-                padding: 0,
-                objectFit: "cover",
-                borderRadius: "30px",
-                boxShadow: "0 4px 20px rgba(0,0,0,0.05)"
-              }}
-            />
+        <div style={{ display: "flex", flexDirection: "column", width: "100%", padding: "0 2rem", boxSizing: "border-box", gap: "2rem", backgroundColor: "#ffffff" }}>
+          {project.images.slice(1, 3).map((src, index) => (
+            <div key={src}>
+              {renderMedia(src, `${project.title} media ${index + 2}`)}
+            </div>
           ))}
         </div>
       )}
 
-      {/* Text Section (White Background, Blue Text) */}
+      {/* Text 2: Long Description + Details */}
       <ParallaxScrollBlock>
         <div style={{
-          backgroundColor: "#ffffff",
           color: "#451eff",
           padding: "4rem 2rem",
           boxSizing: "border-box",
           maxWidth: "85%",
           margin: "0 auto",
+          width: "100%"
         }}>
           
           {/* Long Description */}
@@ -142,11 +153,11 @@ export default async function ProjectDetail({
             <div style={{ 
               fontFamily: "'Funnel Sans', sans-serif",
               fontSize: "1.4rem", 
-              lineHeight: 1.6, 
-              marginBottom: "4rem", 
+              lineHeight: 1.6,
               textAlign: "justify",
               letterSpacing: "-0.03em",
-              fontWeight: 500
+              fontWeight: 500,
+              marginBottom: "4rem"
             }}>
               <p style={{ margin: 0 }}>{project.longDescription}</p>
             </div>
@@ -304,14 +315,16 @@ export default async function ProjectDetail({
         </div>
       </ParallaxScrollBlock>
 
-      {/* Videos Section Placeholder */}
-      {/* 
-      {project.videos && (
-        <div style={{ padding: "0 2rem 4rem 2rem", maxWidth: "1200px", margin: "0 auto", width: "100%", boxSizing: "border-box" }}>
-           Videos rendern
+      {/* Images 4 and 5 */}
+      {project.images && project.images.length > 3 && (
+        <div style={{ display: "flex", flexDirection: "column", width: "100%", padding: "0 2rem 4rem 2rem", boxSizing: "border-box", gap: "2rem", marginTop: "2rem", backgroundColor: "#ffffff" }}>
+          {project.images.slice(3, 5).map((src, index) => (
+            <div key={src}>
+              {renderMedia(src, `${project.title} media ${index + 4}`)}
+            </div>
+          ))}
         </div>
       )}
-      */}
 
     </div>
   );

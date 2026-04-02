@@ -7,7 +7,7 @@
     "technologies": ["Python", "Gradio", "OpenAI API", "GitHub", "CSS"],
     "attributes": ["Group project", "University project", "Chatbot Game"],
     "role": ["Developer", "Project management"],
-    "images": ["/project-images/project1/screenshot_landing.png", "/project-images/project1/screenshot_game.png"],
+    "images": ["/project-images/project1/11.png", "/project-images/project1/12.png"],
     "githubUrl": "https://github.com/ID-Start-Winter24/Case-Unknown-Chatbot-Detective",
     "year": "2024"
   },
@@ -19,7 +19,7 @@
     "technologies": ["Three.js", "JavaScript", "GitLab"],
     "attributes": ["University project", "Group project", "3D Web Game", "Agile/Scrum"],
     "role": ["Scrum Master", "Developer", "GitLab Maintainer"],
-    "images": ["/project-images/project2/projekt1-bild1.png", "/project-images/project2/projekt1-bild2.png", "/project-images/project2/projekt1-bild3.png"],
+    "images": ["/project-images/project2/21.jpg", "/project-images/project2/22.png", "/project-images/project2/23.png", "/project-images/project2/24.jpeg", "/project-images/project2/25.mp4"],
     "githubUrl": "https://github.com/miriamab/The-REM-Project",
     "HuggingFaceUrl": "https://huggingface.co/spaces/miriamab/The-REM-Projekt",
     "year": "2025"
@@ -32,7 +32,7 @@
     "technologies": ["Python", "JavaScript", "SQLite", "Flask"],
     "attributes": ["University project", "Group project", "Full-Stack Development", "Cybersecurity Research"],
     "role": ["Backend Lead", "Database Engineer", "Infrastructure"],
-    "images": ["/project-images/project2/projekt1-bild1.png", "/project-images/project2/projekt1-bild2.png", "/project-images/project2/projekt1-bild3.png"],
+    "images": ["/project-images/project3/31.png", "/project-images/project3/32.png", "/project-images/project3/33.png"],
     "githubUrl": "https://github.com/fionapiorek/Franz",
     "year": "2025"
   },
@@ -44,7 +44,7 @@
     "technologies": ["Svelte 5", "D3.js", "Vite", "JavaScript", "CSS"],
     "attributes": ["University project", "Individual project", "Data Visualization"],
     "role": ["Developer", "UX Design"],
-    "images": ["/project-images/project2/projekt1-bild1.png", "/project-images/project2/projekt1-bild2.png", "/project-images/project2/projekt1-bild3.png"],
+    "images": ["/project-images/project4/41.png", "/project-images/project4/42.png", "/project-images/project4/43.png"],
     "githubUrl": "https://github.com/miriamab/LetsMove",
     "WebsiteUrl": "https://miriamab.github.io/LetsMove/",
     "year": "2025"
@@ -58,7 +58,7 @@
     "technologies": ["Svelte", "Vite", "JavaScript", "CSS"],
     "attributes": ["Podcast website"],
     "role": ["Developer", "Frontend UX"],
-    "images": ["/project-images/project2/projekt1-bild1.png", "/project-images/project2/projekt1-bild2.png", "/project-images/project2/projekt1-bild3.png"],
+    "images": ["/project-images/project5/51.png", "/project-images/project5/52.png", "/project-images/project5/53.png"],
     "githubUrl": "https://github.com/miriamab/Laberfactory",
     "WebsiteUrl": "https://laberfactory.de/",
     "year": "2026"
