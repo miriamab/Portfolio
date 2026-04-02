@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import DotGrid from "./components/DotGrid";
+import OverscrollBackground from "./components/OverscrollBackground";
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="de">
       <body>
+        <OverscrollBackground />
         <div style={{ position: 'relative', minHeight: '100vh' }}>
           <DotGrid />
           {children}
