@@ -101,6 +101,10 @@ export default function Footer() {
           z-index: 100000;
           position: relative;
         }
+        
+        .footer-bottom-wrapper.returning-about .bottom-nav-link.riding-down {
+          color: #ffffff !important;
+        }
 
         .footer-bottom-wrapper.animating-up .bottom-nav-link:not(.riding-up),
         .footer-bottom-wrapper.animating-down .bottom-nav-link:not(.riding-down),
@@ -130,7 +134,7 @@ export default function Footer() {
           letter-spacing: 0.02em;
           font-family: 'Gasoek One', sans-serif;
           line-height: 1;
-          transition: transform 0.3s ease, color 0.3s ease;
+          transition: transform 0.3s ease;
           display: inline-block;
           position: relative;
           z-index: 2;
@@ -321,7 +325,7 @@ export default function Footer() {
         )}
       </div>
 
-      <div className={`footer-bottom-wrapper ${isAnimating ? 'animating-up' : ''} ${returningFrom ? 'animating-down' : ''}`}>
+      <div className={`footer-bottom-wrapper ${isAnimating ? 'animating-up' : ''} ${returningFrom ? `animating-down returning-${returningFrom.substring(1)}` : ''}`}>
         <div style={styles.navLinksContainer}>
           <div className="nav-links-inner">
             <div className="nav-group">
