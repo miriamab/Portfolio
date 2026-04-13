@@ -35,23 +35,37 @@ export default function Footer() {
     }
   }, [pathname]);
 
-  const handleTransition = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleTransition = (e: React.MouseEvent<HTMLAnchorElement>, href: string, fromMobileMenu = false) => {
     if ((href === '/about' || href === '/projects') && href !== pathname) {
       e.preventDefault();
-      setIsMobileMenuOpen(false);
-      setClickedHref(href);
-      setIsAnimating(true);
-      // Dispatch an event so Hero knows to slide up
-      window.dispatchEvent(new Event('navigatingToAbout'));
       
-      setTimeout(() => {
+      if (fromMobileMenu) {
+        // Direkter Übergang ohne Slide-Up Overlay, da wir bereits im blauen Menü sind
+        setClickedHref(href);
+        // Wir schieben die Next-Routenumschaltung an
         router.push(href);
-        // Reset after routing
+        // Erst danach (mit Verzögerung, damit die Seite geladen ist und blau bleibt) machen wir das Menü zu
         setTimeout(() => {
-          setIsAnimating(false);
+          setIsMobileMenuOpen(false);
           setClickedHref(null);
-        }, 100);
-      }, 600); // 600ms corresponds to transition time
+        }, 150);
+      } else {
+        // Normale Animation vom Hero Screen (Slidet nach oben)
+        setIsMobileMenuOpen(false);
+        setClickedHref(href);
+        setIsAnimating(true);
+        // Dispatch an event so Hero knows to slide up
+        window.dispatchEvent(new Event('navigatingToAbout'));
+        
+        setTimeout(() => {
+          router.push(href);
+          // Reset after routing
+          setTimeout(() => {
+            setIsAnimating(false);
+            setClickedHref(null);
+          }, 100);
+        }, 600); // 600ms corresponds to transition time
+      }
     }
   };
 
@@ -228,7 +242,7 @@ export default function Footer() {
             cursor: pointer;
             z-index: 10000;
             position: absolute;
-            bottom: 30px; /* Zentriert über dem Balken (60px halbiert) */
+            bottom: 80px; /* 20px über dem 60px Balken */
             left: 50%;
             transform: translateX(-50%);
             pointer-events: auto;
@@ -284,6 +298,9 @@ export default function Footer() {
           }
           .mobile-contact-link {
             font-size: 1.8rem;
+          }
+          .mobile-contact-link:first-of-type {
+            margin-top: 3rem;
           }
         }
       `}</style>
@@ -491,18 +508,12 @@ export default function Footer() {
           <Link 
             href="/about" 
             className="mobile-nav-link" 
-            onClick={(e) => {
-              setIsMobileMenuOpen(false);
-              handleTransition(e, "/about");
-            }}
+            onClick={(e) => handleTransition(e, "/about", true)}
           >ABOUT ME</Link>
           <Link 
             href="/projects" 
             className="mobile-nav-link"
-            onClick={(e) => {
-              setIsMobileMenuOpen(false);
-              handleTransition(e, "/projects");
-            }}
+            onClick={(e) => handleTransition(e, "/projects", true)}
           >PROJECTS</Link>
           <a href="mailto:miriam.abbas@hm.edu" className="mobile-nav-link mobile-contact-link" onClick={() => setIsMobileMenuOpen(false)}>Email</a>
           <a href="https://github.com/miriamab" target="_blank" rel="noopener noreferrer" className="mobile-nav-link mobile-contact-link" onClick={() => setIsMobileMenuOpen(false)}>GitHub</a>
