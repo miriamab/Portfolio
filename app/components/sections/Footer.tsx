@@ -91,12 +91,6 @@ export default function Footer() {
           100% { transform: translateY(calc(100vh - 60px)); opacity: 0; }
         }
 
-        .footer-bottom-wrapper.animating-up,
-        .footer-bottom-wrapper.animating-down {
-          z-index: 100000;
-          position: relative;
-        }
-
         .bottom-nav-link.riding-up {
           animation: slideUpLink 0.6s cubic-bezier(0.85, 0, 0.15, 1) forwards;
           z-index: 100000;
@@ -106,6 +100,16 @@ export default function Footer() {
           animation: slideDownLink 0.6s cubic-bezier(0.85, 0, 0.15, 1) forwards;
           z-index: 100000;
           position: relative;
+        }
+
+        .footer-bottom-wrapper.animating-up .bottom-nav-link:not(.riding-up),
+        .footer-bottom-wrapper.animating-down .bottom-nav-link:not(.riding-down),
+        .footer-bottom-wrapper.animating-up .bottom-bar,
+        .footer-bottom-wrapper.animating-down .bottom-bar,
+        .footer-bottom-wrapper.animating-up .bottom-bar-base,
+        .footer-bottom-wrapper.animating-down .bottom-bar-base {
+          opacity: 0 !important;
+          pointer-events: none !important;
         }
 
         @keyframes slideDownLink {
