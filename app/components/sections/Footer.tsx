@@ -299,7 +299,7 @@ export default function Footer() {
           .mobile-contact-link {
             font-size: 1.8rem;
           }
-          .mobile-contact-link:first-of-type {
+          .mobile-contact-spacer {
             margin-top: 3rem;
           }
         }
@@ -362,6 +362,7 @@ export default function Footer() {
                       display: flex !important;
                       flex-direction: column !important;
                       overflow-y: auto !important;
+                      overflow-x: hidden !important;
                       height: 100vh;
                       width: 100vw;
                       position: absolute;
@@ -370,14 +371,16 @@ export default function Footer() {
                     }
                     .fake-about-me-image-container {
                       position: relative !important;
-                      top: 5rem !important;
+                      top: auto !important;
                       right: auto !important;
-                      margin: 0 auto !important;
-                      width: 40vw !important;
+                      align-self: flex-end !important;
+                      margin-top: 5rem !important;
+                      margin-right: -10vw !important;
+                      width: 45vw !important;
                       min-width: 200px !important;
                     }
                     .fake-about-me-content {
-                      margin-top: 8rem !important;
+                      margin-top: 4rem !important;
                       margin-left: 1.5rem !important;
                       margin-right: 1.5rem !important;
                       width: auto !important;
@@ -515,7 +518,7 @@ export default function Footer() {
             className="mobile-nav-link"
             onClick={(e) => handleTransition(e, "/projects", true)}
           >PROJECTS</Link>
-          <a href="mailto:miriam.abbas@hm.edu" className="mobile-nav-link mobile-contact-link" onClick={() => setIsMobileMenuOpen(false)}>Email</a>
+          <a href="mailto:miriam.abbas@hm.edu" className="mobile-nav-link mobile-contact-link mobile-contact-spacer" onClick={() => setIsMobileMenuOpen(false)}>Email</a>
           <a href="https://github.com/miriamab" target="_blank" rel="noopener noreferrer" className="mobile-nav-link mobile-contact-link" onClick={() => setIsMobileMenuOpen(false)}>GitHub</a>
           <a href="https://www.linkedin.com/in/miriam-abbas-579104397/" target="_blank" rel="noopener noreferrer" className="mobile-nav-link mobile-contact-link" onClick={() => setIsMobileMenuOpen(false)}>LinkedIn</a>
         </div>

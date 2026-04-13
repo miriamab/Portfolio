@@ -71,17 +71,20 @@ export default function AboutMe() {
           .about-me-wrapper {
             flex-direction: column;
             overflow-y: auto;
+            overflow-x: hidden;
           }
           .about-me-image-container {
             position: relative;
-            top: 5rem;
+            top: auto;
             right: auto;
-            margin: 0 auto;
-            width: 40vw;
+            margin-top: 5rem;
+            margin-right: -10vw;
+            align-self: flex-end;
+            width: 45vw;
             min-width: 200px;
           }
           .about-me-content {
-            margin-top: 8rem;
+            margin-top: 4rem;
             margin-left: 1.5rem;
             margin-right: 1.5rem;
             width: auto;
