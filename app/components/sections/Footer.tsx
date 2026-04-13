@@ -102,16 +102,9 @@ export default function Footer() {
           position: relative;
         }
         
-        .footer-bottom-wrapper.returning-about .bottom-nav-link.riding-down {
-          color: #ffffff !important;
-        }
-
         .footer-bottom-wrapper.animating-up .bottom-nav-link:not(.riding-up),
-        .footer-bottom-wrapper.animating-down .bottom-nav-link:not(.riding-down),
         .footer-bottom-wrapper.animating-up .bottom-bar,
-        .footer-bottom-wrapper.animating-down .bottom-bar,
-        .footer-bottom-wrapper.animating-up .bottom-bar-base,
-        .footer-bottom-wrapper.animating-down .bottom-bar-base {
+        .footer-bottom-wrapper.animating-up .bottom-bar-base {
           opacity: 0 !important;
           pointer-events: none !important;
         }
@@ -134,7 +127,7 @@ export default function Footer() {
           letter-spacing: 0.02em;
           font-family: 'Gasoek One', sans-serif;
           line-height: 1;
-          transition: transform 0.3s ease;
+          transition: transform 0.3s ease, color 0.3s ease;
           display: inline-block;
           position: relative;
           z-index: 2;
