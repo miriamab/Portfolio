@@ -164,15 +164,27 @@ export default async function ProjectDetail({
           )}
 
           {/* Attributes & Technologies & Role & Year */}
-          <div style={{ 
-            display: "grid", 
-            gridTemplateColumns: "1fr 1fr",
-            gap: "2.5rem", 
-            marginBottom: "4rem",
-            fontFamily: "'Funnel Sans', sans-serif",
-            letterSpacing: "-0.03em",
-            fontWeight: 500
-          }}>
+          <style>{`
+            .project-metadata-grid {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 2.5rem;
+              margin-bottom: 4rem;
+              font-family: 'Funnel Sans', sans-serif;
+              letter-spacing: -0.03em;
+              font-weight: 500;
+            }
+            @media (max-width: 768px) {
+              .project-metadata-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+              }
+              .project-metadata-grid > div {
+                padding-right: 1rem;
+              }
+            }
+          `}</style>
+          <div className="project-metadata-grid">
           
             {/* Attributes */}
             {project.attributes && project.attributes.length > 0 && (

@@ -11,6 +11,7 @@ export default function Footer() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [returningFrom, setReturningFrom] = useState<string | null>(null);
   const [clickedHref, setClickedHref] = useState<string | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const isBluePage = pathname === '/about';
 
@@ -37,6 +38,7 @@ export default function Footer() {
   const handleTransition = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if ((href === '/about' || href === '/projects') && href !== pathname) {
       e.preventDefault();
+      setIsMobileMenuOpen(false);
       setClickedHref(href);
       setIsAnimating(true);
       // Dispatch an event so Hero knows to slide up
@@ -207,17 +209,81 @@ export default function Footer() {
           gap: clamp(1rem, 3vw, 4rem);
         }
         
+        .mobile-menu-btn {
+          display: none;
+        }
+        
         @media (max-width: 768px) {
           .nav-links-inner {
+            display: none; /* Versteckt durch Standard-Design auf Mobile um zum Hamburger Menü zu wechseln */
+          }
+          
+          .mobile-menu-btn {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            width: 30px;
+            height: 25px;
+            cursor: pointer;
+            z-index: 10000;
+            position: absolute;
+            bottom: 30px; /* Zentriert über dem Balken (60px halbiert) */
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: auto;
+          }
+          
+          .mobile-menu-btn.animating-up,
+          .mobile-menu-btn.animating-down {
+            opacity: 0 !important;
+            pointer-events: none !important;
+          }
+          
+          .hamburger-line {
+            width: 100%;
+            height: 3px;
+            background-color: ${isMobileMenuOpen ? (navLinkColor === '#ffffff' ? '#451eff' : '#ffffff') : navLinkColor};
+            border-radius: 2px;
+            transition: all 0.3s ease;
+          }
+
+          /* Mobile Overlay Styling */
+          .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: ${barColor};
+            z-index: 9998; /* Under the button (z-index 10000) */
+            display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1rem;
-            padding-bottom: 10px;
-            padding: 0 1rem;
-          }
-          .nav-group, .contact-group {
             justify-content: center;
-            gap: 1.5rem;
+            gap: 2rem;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(100%);
+            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.85, 0, 0.15, 1);
+          }
+          
+          .mobile-menu-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+          }
+          
+          .mobile-nav-link {
+            color: ${navLinkColor === '#ffffff' ? '#451eff' : '#ffffff'}; /* Invertierte Farbe zum Balken */
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 2.5rem;
+            letter-spacing: 0.02em;
+            font-family: 'Gasoek One', sans-serif;
+          }
+          .mobile-contact-link {
+            font-size: 1.8rem;
           }
         }
       `}</style>
@@ -245,13 +311,6 @@ export default function Footer() {
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
-                  }
-                  @media (max-width: 768px) {
-                    .fake-about-me-image-container {
-                      top: 6rem;
-                      right: 2rem;
-                      width: 32vw;
-                    }
                   }
                   
                   .fake-about-me-content {
@@ -282,34 +341,50 @@ export default function Footer() {
                   }
                   
                   @media (max-width: 768px) {
+                    .fake-about-me-wrapper {
+                      display: flex !important;
+                      flex-direction: column !important;
+                      overflow-y: auto !important;
+                      height: 100vh;
+                      width: 100vw;
+                      position: absolute;
+                      top: 0;
+                      left: 0;
+                    }
                     .fake-about-me-image-container {
-                      top: 6rem;
-                      right: 2rem;
-                      width: 32vw;
+                      position: relative !important;
+                      top: 5rem !important;
+                      right: auto !important;
+                      margin: 0 auto !important;
+                      width: 40vw !important;
+                      min-width: 200px !important;
                     }
                     .fake-about-me-content {
-                      margin-top: 12rem;
-                      margin-left: 1.5rem;
-                      margin-right: 1.5rem;
-                      width: 90%;
+                      margin-top: 8rem !important;
+                      margin-left: 1.5rem !important;
+                      margin-right: 1.5rem !important;
+                      width: auto !important;
+                      padding-bottom: 3rem !important;
                     }
                     .fake-about-me-text {
-                      font-size: 1.4rem;
+                      font-size: 1.4rem !important;
                     }
                   }
                 `}</style>
-                <div className="fake-about-me-image-container">
-                  <img src="/profile.jpg" alt="Miriam Abbas" className="fake-about-me-image" />
-                </div>
-                <div className="fake-about-me-content">
-                  <p className="fake-about-me-text">
-                    Hi there, my name is Miriam! <br /> <br />
-                    I am an Informatics and Design student in Munich specializing in the intersection
-                    of technical logic and user-centered design. Currently, I’m diving deep into Python,
-                    JavaScript, and AI to create modern websites and AI-driven projects. Beyond coding,
-                    I’m passionate about agile project organization, combining efficient workflows with
-                    a human-centered approach to build digital solutions that really work for people.
-                  </p>
+                <div className="fake-about-me-wrapper">
+                  <div className="fake-about-me-image-container">
+                    <img src="/profile.jpg" alt="Miriam Abbas" className="fake-about-me-image" />
+                  </div>
+                  <div className="fake-about-me-content">
+                    <p className="fake-about-me-text">
+                      Hi there, my name is Miriam! <br /> <br />
+                      I am an Informatics and Design student in Munich specializing in the intersection
+                      of technical logic and user-centered design. Currently, I’m diving deep into Python,
+                      JavaScript, and AI to create modern websites and AI-driven projects. Beyond coding,
+                      I’m passionate about agile project organization, combining efficient workflows with
+                      a human-centered approach to build digital solutions that really work for people.
+                    </p>
+                  </div>
                 </div>
               </>
             )}
@@ -400,6 +475,40 @@ export default function Footer() {
           </div>
           <div className="bottom-bar" style={{...styles.bottomBar, backgroundColor: barColor}} />
         </div>
+        
+        {/* Hamburger Icon */}
+        <div 
+          className={`mobile-menu-btn ${isAnimating ? 'animating-up' : ''} ${returningFrom ? 'animating-down' : ''}`}
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          <div className="hamburger-line" style={{ transform: isMobileMenuOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none' }}></div>
+          <div className="hamburger-line" style={{ opacity: isMobileMenuOpen ? 0 : 1 }}></div>
+          <div className="hamburger-line" style={{ transform: isMobileMenuOpen ? 'rotate(-45deg) translate(8px, -8px)' : 'none' }}></div>
+        </div>
+
+        {/* Mobile Fullscreen Menu */}
+        <div className={`mobile-menu-overlay ${isMobileMenuOpen ? 'open' : ''}`}>
+          <Link 
+            href="/about" 
+            className="mobile-nav-link" 
+            onClick={(e) => {
+              setIsMobileMenuOpen(false);
+              handleTransition(e, "/about");
+            }}
+          >ABOUT ME</Link>
+          <Link 
+            href="/projects" 
+            className="mobile-nav-link"
+            onClick={(e) => {
+              setIsMobileMenuOpen(false);
+              handleTransition(e, "/projects");
+            }}
+          >PROJECTS</Link>
+          <a href="mailto:miriam.abbas@hm.edu" className="mobile-nav-link mobile-contact-link" onClick={() => setIsMobileMenuOpen(false)}>Email</a>
+          <a href="https://github.com/miriamab" target="_blank" rel="noopener noreferrer" className="mobile-nav-link mobile-contact-link" onClick={() => setIsMobileMenuOpen(false)}>GitHub</a>
+          <a href="https://www.linkedin.com/in/miriam-abbas-579104397/" target="_blank" rel="noopener noreferrer" className="mobile-nav-link mobile-contact-link" onClick={() => setIsMobileMenuOpen(false)}>LinkedIn</a>
+        </div>
+
         <div className="bottom-bar-base" />
       </div>
     </>

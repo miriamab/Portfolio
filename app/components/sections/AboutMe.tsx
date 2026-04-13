@@ -68,16 +68,24 @@ export default function AboutMe() {
         }
         
         @media (max-width: 768px) {
+          .about-me-wrapper {
+            flex-direction: column;
+            overflow-y: auto;
+          }
           .about-me-image-container {
-            top: 6rem;
-            right: 2rem;
-            width: 32vw;
+            position: relative;
+            top: 5rem;
+            right: auto;
+            margin: 0 auto;
+            width: 40vw;
+            min-width: 200px;
           }
           .about-me-content {
-            margin-top: 12rem;
+            margin-top: 8rem;
             margin-left: 1.5rem;
             margin-right: 1.5rem;
-            width: 90%;
+            width: auto;
+            padding-bottom: 3rem;
           }
           .about-me-text {
             font-size: 1.4rem;
