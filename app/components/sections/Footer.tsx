@@ -253,12 +253,56 @@ export default function Footer() {
                       width: 32vw;
                     }
                   }
+                  
+                  .fake-about-me-content {
+                    width: 80%;
+                    margin-top: 21rem;
+                    margin-left: 3rem;
+                    margin-right: 1.3rem;
+                  }
+                  .fake-about-me-text {
+                    text-align: left;
+                    letter-spacing: -0.03rem;
+                    font-family: 'Funnel Sans', sans-serif;
+                    font-size: 2.5rem;
+                    font-weight: 500;
+                    line-height: 1.11;
+                    color: #ffffff;
+                    margin: 0;
+                  }
+
+                  @media (max-width: 1024px) {
+                    .fake-about-me-content {
+                      margin-top: 15rem;
+                      width: 85%;
+                    }
+                    .fake-about-me-text {
+                      font-size: 2rem;
+                    }
+                  }
+                  
+                  @media (max-width: 768px) {
+                    .fake-about-me-image-container {
+                      top: 6rem;
+                      right: 2rem;
+                      width: 32vw;
+                    }
+                    .fake-about-me-content {
+                      margin-top: 12rem;
+                      margin-left: 1.5rem;
+                      margin-right: 1.5rem;
+                      width: 90%;
+                    }
+                    .fake-about-me-text {
+                      font-size: 1.4rem;
+                    }
+                  }
                 `}</style>
                 <div className="fake-about-me-image-container">
                   <img src="/profile.jpg" alt="Miriam Abbas" className="fake-about-me-image" />
                 </div>
-                <div style={styles.fakeContentAbout}>
-                  <p style={styles.fakeText}>
+                <div className="fake-about-me-content">
+                  <p className="fake-about-me-text">
                     Hi there, my name is Miriam! <br /> <br />
                     I am an Informatics and Design student in Munich specializing in the intersection
                     of technical logic and user-centered design. Currently, I’m diving deep into Python,
@@ -292,7 +336,7 @@ export default function Footer() {
                   }
                   .fake-project-preview-title {
                     color: #451eff;
-                    font-size: 5rem;
+                    font-size: clamp(2rem, 5vw, 5rem);
                     font-weight: 500;
                     text-align: left;
                     margin: 0 0 0 -0.05em;
@@ -300,9 +344,24 @@ export default function Footer() {
                     font-family: 'Gasoek One', sans-serif;
                     letter-spacing: 0.05em;
                   }
+                  .fake-projects-grid {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 1rem;
+                  }
+                  @media (max-width: 1024px) {
+                    .fake-projects-grid {
+                      grid-template-columns: repeat(2, 1fr);
+                    }
+                  }
+                  @media (max-width: 600px) {
+                    .fake-projects-grid {
+                      grid-template-columns: 1fr;
+                    }
+                  }
                 `}</style>
                 <div style={styles.fakeContentProjectsInner}>
-                  <div style={styles.projectsGrid}>
+                  <div className="fake-projects-grid">
                     {projectsData.map((project: any) => (
                       <div key={project.id} className="fake-project-preview-wrapper">
                         <div className="fake-project-preview-overlay">
@@ -369,12 +428,6 @@ const styles = {
     color: "#ffffff",
     zIndex: 20,
   },
-  fakeContentAbout: {
-    width: "80%",
-    marginTop: "21rem",
-    marginLeft: "3rem",
-    marginRight: "1.3rem",
-  },
   fakeContentProjects: {
     maxWidth: '100%',
     width: '100%',
@@ -386,21 +439,6 @@ const styles = {
   fakeContentProjectsInner: {
     maxWidth: '100%',
     width: '100%',
-  },
-  projectsGrid: {
-    display: 'grid' as const,
-    gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '1rem',
-  },
-  fakeText: {
-    textAlign: "left" as const,
-    letterSpacing: "-0.03rem",
-    fontFamily: "Funnel Sans, sans-serif",
-    fontSize: "2.5rem",
-    fontWeight: 500,
-    lineHeight: 1.11,
-    color: "#ffffff",
-    margin: 0,
   },
   navLinksContainer: {
     position: 'fixed' as const,

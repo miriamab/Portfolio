@@ -108,7 +108,7 @@ export default function Projects() {
           }
           .project-preview-title {
             color: #451eff;
-            font-size: 5rem;
+            font-size: clamp(2rem, 5vw, 5rem);
             font-weight: 500;
             text-align: left;
             margin: 0 0 0 -0.05em;
@@ -137,8 +137,23 @@ export default function Projects() {
             object-fit: cover;
             border-radius: 30px;
           }
+          .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+          }
+          @media (max-width: 1024px) {
+            .projects-grid {
+              grid-template-columns: repeat(2, 1fr);
+            }
+          }
+          @media (max-width: 600px) {
+            .projects-grid {
+              grid-template-columns: 1fr;
+            }
+          }
         `}</style>
-        <div className="projects-grid" style={styles.projectsGrid}>
+        <div className="projects-grid">
           {projects.map((project) => (
             <Link
               key={project.id}
@@ -211,11 +226,6 @@ const styles = {
     fontFamily: 'Gasoek One',
     marginBottom: '1rem',
     textAlign: 'left' as const,
-  },
-  projectsGrid: {
-    display: 'grid' as const,
-    gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '1rem',
   },
   projectCard: {
     padding: '1.5rem',

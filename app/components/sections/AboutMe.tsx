@@ -41,11 +41,46 @@ export default function AboutMe() {
           height: 100%;
           object-fit: cover;
         }
+        .about-me-content {
+          width: 80%;
+          margin-top: 21rem;
+          margin-left: 3rem;
+          margin-right: 1.3rem;
+        }
+        .about-me-text {
+          text-align: left;
+          letter-spacing: -0.03rem;
+          font-family: Funnel Sans, sans-serif;
+          font-size: 2.5rem;
+          font-weight: 500;
+          line-height: 1.11;
+          color: #ffffff;
+        }
+
+        @media (max-width: 1024px) {
+          .about-me-content {
+            margin-top: 15rem;
+            width: 85%;
+          }
+          .about-me-text {
+            font-size: 2rem;
+          }
+        }
+        
         @media (max-width: 768px) {
           .about-me-image-container {
             top: 6rem;
             right: 2rem;
             width: 32vw;
+          }
+          .about-me-content {
+            margin-top: 12rem;
+            margin-left: 1.5rem;
+            margin-right: 1.5rem;
+            width: 90%;
+          }
+          .about-me-text {
+            font-size: 1.4rem;
           }
         }
       `}</style>
@@ -57,8 +92,8 @@ export default function AboutMe() {
         <div className="about-me-image-container">
           <img src="/profile.jpg" alt="Miriam Abbas" className="about-me-image" />
         </div>
-        <div className="about-me-content" style={styles.content}>
-          <p style={styles.text}>
+        <div className="about-me-content">
+          <p className="about-me-text">
             Hi there, my name is Miriam! <br /> <br />
               I am an Informatics and Design student in Munich specializing in the intersection
               of technical logic and user-centered design. Currently, I’m diving deep into Python,
@@ -87,20 +122,5 @@ const styles = {
     border: "none",
     cursor: "pointer",
     zIndex: 20,
-  },
-  content: {
-    width: "80%",
-    marginTop: "21rem",
-    marginLeft: "3rem",
-    marginRight: "1.3rem",
-  },
-  text: {
-    textAlign: "left" as const,
-    letterSpacing: "-0.03rem",
-    fontFamily: "Funnel Sans, sans-serif",
-    fontSize: "2.5rem",
-    fontWeight: 500,
-    lineHeight: 1.11,
-    color: "#ffffff",
   },
 };
