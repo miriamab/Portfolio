@@ -32,6 +32,7 @@
     "technologies": ["Python", "JavaScript", "SQLite", "Flask"],
     "attributes": ["University project", "Group project", "Full-Stack Development", "Cybersecurity Research"],
     "role": ["Backend Lead", "Database Engineer", "Infrastructure"],
+    "thumbnail": "/project-images/project3/30.png",
     "images": ["/project-images/project3/31.png", "/project-images/project3/32.png", "/project-images/project3/33.png"],
     "githubUrl": "https://github.com/fionapiorek/Franz",
     "year": "2025"
@@ -58,6 +59,7 @@
     "technologies": ["Svelte", "Vite", "JavaScript", "CSS"],
     "attributes": ["Podcast website"],
     "role": ["Developer", "Frontend UX"],
+    "thumbnail": "/project-images/project5/50.png",
     "images": ["/project-images/project5/51.png", "/project-images/project5/52.png", "/project-images/project5/53.png"],
     "githubUrl": "https://github.com/miriamab/Laberfactory",
     "WebsiteUrl": "https://laberfactory.de/",

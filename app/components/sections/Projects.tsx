@@ -13,6 +13,7 @@ interface Project {
   technologies: string[];
   attributes?: string[];
   role?: string[];
+  thumbnail?: string;
   images: string[];
   githubUrl?: string;
   liveUrl?: string;
@@ -149,9 +150,9 @@ export default function Projects() {
                 <h3 className="project-preview-title">{project.displayTitle || project.title}</h3>
               </div>
               <div className="project-preview-image-container">
-                {project.images && project.images.length > 0 ? (
+                {project.thumbnail || (project.images && project.images.length > 0) ? (
                   <img 
-                    src={project.images[0]}
+                    src={project.thumbnail || project.images[0]}
                     alt={project.title}
                     className="project-preview-image"
                   />
