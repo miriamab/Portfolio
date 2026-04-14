@@ -1,3 +1,4 @@
+import { getAssetPath } from '../../utils/assetPath';
 "use client";
 import { useRouter } from "next/navigation";
 
@@ -101,7 +102,7 @@ export default function AboutMe() {
           BACK
         </button>
         <div className="about-me-image-container">
-          <img src="/profile.jpg" alt="Miriam Abbas" className="about-me-image" />
+          <img src={getAssetPath("/profile.jpg")} alt="Miriam Abbas" className="about-me-image" />
         </div>
         <div className="about-me-content">
           <p className="about-me-text">

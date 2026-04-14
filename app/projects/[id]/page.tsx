@@ -3,6 +3,7 @@ import Link from "next/link";
 import projectsData from "../../../data/projects.json";
 import ParallaxTitle from "./ParallaxTitle";
 import ParallaxScrollBlock from "./ParallaxScrollBlock";
+import { getAssetPath } from "../../utils/assetPath";
 
 interface Project {
   id: string;
@@ -25,6 +26,7 @@ interface Project {
 
 const renderMedia = (src: string, alt: string) => {
   const isVideo = src.match(/\.(mp4|webm|ogg)$/i);
+  const resolvedSrc = getAssetPath(src);
   const mediaStyle = {
     width: "100%",
     height: "auto",
@@ -39,8 +41,8 @@ const renderMedia = (src: string, alt: string) => {
   if (isVideo) {
     return (
       <video
-        key={src}
-        src={src}
+        key={resolvedSrc}
+        src={resolvedSrc}
         autoPlay
         loop
         muted
@@ -51,8 +53,8 @@ const renderMedia = (src: string, alt: string) => {
   }
   return (
     <img 
-      key={src}
-      src={src}
+      key={resolvedSrc}
+      src={resolvedSrc}
       alt={alt}
       style={mediaStyle}
     />

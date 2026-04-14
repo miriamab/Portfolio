@@ -1,3 +1,4 @@
+import { getAssetPath } from '../../utils/assetPath';
 "use client";
 
 import Link from 'next/link';
@@ -393,7 +394,7 @@ export default function Footer() {
                 `}</style>
                 <div className="fake-about-me-wrapper">
                   <div className="fake-about-me-image-container">
-                    <img src="/profile.jpg" alt="Miriam Abbas" className="fake-about-me-image" />
+                    <img src={getAssetPath("/profile.jpg")} alt="Miriam Abbas" className="fake-about-me-image" />
                   </div>
                   <div className="fake-about-me-content">
                     <p className="fake-about-me-text">

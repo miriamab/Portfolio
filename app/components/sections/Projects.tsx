@@ -1,3 +1,4 @@
+import { getAssetPath } from '../../utils/assetPath';
 "use client";
 
 import { useState, useEffect } from "react";
@@ -167,7 +168,7 @@ export default function Projects() {
               <div className="project-preview-image-container">
                 {project.thumbnail || (project.images && project.images.length > 0) ? (
                   <img 
-                    src={project.thumbnail || project.images[0]}
+                    src={getAssetPath(project.thumbnail || project.images[0])}
                     alt={project.title}
                     className="project-preview-image"
                   />
