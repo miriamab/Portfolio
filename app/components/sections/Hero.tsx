@@ -270,7 +270,7 @@ const styles = {
     overflow: 'hidden' as const,
   },
   title: {
-    fontSize: 'clamp(2rem, 15vw, 30rem)',
+    fontSize: 'clamp(3rem, 18vw, 25rem)',
     fontWeight: 400,
     letterSpacing: '0.02em',
     fontFamily: 'Gasoek One',

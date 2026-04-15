@@ -1,5 +1,5 @@
-import { getAssetPath } from '../../utils/assetPath';
 "use client";
+import { getAssetPath } from '../../utils/assetPath';
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";

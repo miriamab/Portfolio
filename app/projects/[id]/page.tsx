@@ -5,6 +5,12 @@ import ParallaxTitle from "./ParallaxTitle";
 import ParallaxScrollBlock from "./ParallaxScrollBlock";
 import { getAssetPath } from "../../utils/assetPath";
 
+export function generateStaticParams() {
+  return projectsData.map((project: { id: string }) => ({
+    id: project.id,
+  }));
+}
+
 interface Project {
   id: string;
   title: string;

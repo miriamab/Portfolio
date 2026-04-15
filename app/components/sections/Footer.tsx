@@ -1,5 +1,5 @@
-import { getAssetPath } from '../../utils/assetPath';
 "use client";
+import { getAssetPath } from '../../utils/assetPath';
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
