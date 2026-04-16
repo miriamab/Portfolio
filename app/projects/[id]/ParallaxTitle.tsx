@@ -17,9 +17,9 @@ export default function ParallaxTitle({ title, description }: Props) {
   return (
     <div 
       ref={containerRef} 
+      className="parallax-title-wrapper"
       style={{ 
         width: "100%", 
-        height: "40vh",
         backgroundColor: "#ffffff", 
         display: "flex", 
         justifyContent: "center", 
@@ -36,13 +36,30 @@ export default function ParallaxTitle({ title, description }: Props) {
         gap: "0.5rem",
         width: "100%",
         maxWidth: "1200px",
-        padding: "0 2rem",
         boxSizing: "border-box",
         zIndex: 10,
         pointerEvents: "none"
       }}>
-        <h1 style={{
-          color: "#451eff",
+        <style>{`
+          .parallax-title-wrapper {
+            height: 40vh;
+          }
+          .parallax-title-container {
+            padding: 0 2rem;
+          }
+          @media (max-width: 768px) {
+            .parallax-title-wrapper {
+              height: auto;
+              padding: 5rem 0;
+            }
+            .parallax-title-container {
+              padding: 0 1rem;
+            }
+          }
+        `}</style>
+        <div className="parallax-title-container" style={{ display: "flex", flexDirection: "column", gap: "0.5rem", width: "100%" }}>
+          <h1 style={{
+            color: "#451eff",
           fontSize: "clamp(2.5rem, 5vw, 5rem)",
           fontWeight: 500,
           textAlign: "left",
@@ -67,6 +84,7 @@ export default function ParallaxTitle({ title, description }: Props) {
           pointerEvents: "auto"
         }}>
           <p style={{ margin: 0, fontSize: "1.25rem", lineHeight: 1.1 }}>{description}</p>
+        </div>
         </div>
       </div>
     </div>

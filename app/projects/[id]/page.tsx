@@ -121,7 +121,7 @@ export default async function ProjectDetail({
       </Link>
 
       {/* First Image at the top */}
-      <div style={{ display: "flex", flexDirection: "column", width: "100%", backgroundColor: "#ffffff", padding: "2rem 2rem 0 2rem", boxSizing: "border-box" }}>
+      <div className="project-detail-image-container-top">
         {project.images && project.images.length > 0 ? (
           renderMedia(project.images[0], `${project.title} cover`)
         ) : (
@@ -136,7 +136,7 @@ export default async function ProjectDetail({
 
       {/* Images 2 and 3 */}
       {project.images && project.images.length > 1 && (
-        <div style={{ display: "flex", flexDirection: "column", width: "100%", padding: "0 2rem", boxSizing: "border-box", gap: "2rem", backgroundColor: "#ffffff" }}>
+        <div className="project-detail-image-container-bottom">
           {project.images.slice(1, 3).map((src, index) => (
             <div key={src}>
               {renderMedia(src, `${project.title} media ${index + 2}`)}
@@ -147,32 +147,51 @@ export default async function ProjectDetail({
 
       {/* Text 2: Long Description + Details */}
       <ParallaxScrollBlock>
-        <div style={{
-          color: "#451eff",
-          padding: "4rem 2rem",
-          boxSizing: "border-box",
-          maxWidth: "85%",
-          margin: "0 auto",
-          width: "100%"
-        }}>
+        <div className="project-detail-text-container">
           
           {/* Long Description */}
           {project.longDescription && (
-            <div style={{ 
-              fontFamily: "'Funnel Sans', sans-serif",
-              fontSize: "1.4rem", 
-              lineHeight: 1.6,
-              textAlign: "justify",
-              letterSpacing: "-0.03em",
-              fontWeight: 500,
-              marginBottom: "4rem"
-            }}>
+            <div className="project-long-desc">
               <p style={{ margin: 0 }}>{project.longDescription}</p>
             </div>
           )}
 
           {/* Attributes & Technologies & Role & Year */}
           <style>{`
+            .project-detail-image-container-top {
+              display: flex;
+              flex-direction: column;
+              width: 100%;
+              background-color: #ffffff;
+              padding: 2rem 2rem 0 2rem;
+              box-sizing: border-box;
+            }
+            .project-detail-image-container-bottom {
+              display: flex;
+              flex-direction: column;
+              width: 100%;
+              padding: 0 2rem;
+              box-sizing: border-box;
+              gap: 2rem;
+              background-color: #ffffff;
+            }
+            .project-detail-text-container {
+              color: #451eff;
+              padding: 4rem 2rem;
+              box-sizing: border-box;
+              max-width: 85%;
+              margin: 0 auto;
+              width: 100%;
+            }
+            .project-long-desc {
+              font-family: 'Funnel Sans', sans-serif;
+              font-size: 1.4rem;
+              line-height: 1.6;
+              text-align: justify;
+              letter-spacing: -0.03em;
+              font-weight: 500;
+              margin-bottom: 4rem;
+            }
             .project-metadata-grid {
               display: grid;
               grid-template-columns: 1fr 1fr;
@@ -183,6 +202,21 @@ export default async function ProjectDetail({
               font-weight: 500;
             }
             @media (max-width: 768px) {
+              .project-detail-image-container-top {
+                padding: 1rem 1rem 0 1rem;
+              }
+              .project-detail-image-container-bottom {
+                padding: 0 1rem;
+              }
+              .project-detail-text-container {
+                max-width: 100%;
+                
+                padding: 3rem 1.2rem;
+              }
+              .project-long-desc {
+                font-size: 1.15rem;
+                text-align: justify;
+              }
               .project-metadata-grid {
                 grid-template-columns: 1fr;
                 gap: 2rem;

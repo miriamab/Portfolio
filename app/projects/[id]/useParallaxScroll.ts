@@ -15,6 +15,16 @@ export function useParallaxScroll(
 
     const updateParallax = () => {
       if (containerRef.current && contentRef.current) {
+        if (window.innerWidth < 1024) { // Disable parallax on tablet/mobile for smooth scrolling
+          if (!isInitialized.current || currentOffset.current !== 0) {
+            currentOffset.current = 0;
+            contentRef.current.style.transform = `translate3d(0, 0, 0)`;
+            isInitialized.current = true;
+          }
+          rafId = requestAnimationFrame(updateParallax);
+          return;
+        }
+
         const rect = containerRef.current.getBoundingClientRect();
         const containerCenter = rect.top + rect.height / 2;
         const viewportCenter = window.innerHeight / 2;
