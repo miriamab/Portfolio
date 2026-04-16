@@ -15,7 +15,7 @@ const styles = {
   container: {
     display: 'flex',
     flexDirection: 'column' as const,
-    height: '100vh',
+    height: '100dvh',
     overflow: 'hidden',
   },
 };

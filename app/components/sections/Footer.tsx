@@ -81,12 +81,12 @@ export default function Footer() {
           top: 0;
           left: 0;
           width: 100vw;
-          height: 100vh;
+          height: 100dvh;
           background-color: #451eff;
           z-index: 10000;
           pointer-events: none;
           opacity: 0;
-          transform: translateY(calc(100vh - 60px));
+          transform: translateY(calc(100dvh - 60px));
         }
         .page-transition-overlay.animating-up {
           opacity: 1;
@@ -98,14 +98,14 @@ export default function Footer() {
         }
 
         @keyframes slideUpOverlay {
-          0% { transform: translateY(calc(100vh - 60px)); }
+          0% { transform: translateY(calc(100dvh - 60px)); }
           100% { transform: translateY(0); }
         }
 
         @keyframes slideDownOverlay {
           0% { transform: translateY(0); opacity: 1; }
-          99% { transform: translateY(calc(100vh - 60px)); opacity: 1; }
-          100% { transform: translateY(calc(100vh - 60px)); opacity: 0; }
+          99% { transform: translateY(calc(100dvh - 60px)); opacity: 1; }
+          100% { transform: translateY(calc(100dvh - 60px)); opacity: 0; }
         }
 
         .bottom-nav-link.riding-up {
@@ -127,13 +127,13 @@ export default function Footer() {
         }
 
         @keyframes slideDownLink {
-          0% { transform: translateY(calc(-100vh + 60px)); }
+          0% { transform: translateY(calc(-100dvh + 60px)); }
           100% { transform: translateY(0); }
         }
         
         @keyframes slideUpLink {
           0% { transform: translateY(0); }
-          100% { transform: translateY(calc(-100vh + 60px)); }
+          100% { transform: translateY(calc(-100dvh + 60px)); }
         }
 
         .bottom-nav-link {
@@ -269,7 +269,7 @@ export default function Footer() {
             top: 0;
             left: 0;
             width: 100vw;
-            height: 100vh;
+            height: 100dvh;
             background-color: ${barColor};
             z-index: 9998; /* Under the button (z-index 10000) */
             display: flex;
@@ -364,7 +364,7 @@ export default function Footer() {
                       flex-direction: column !important;
                       overflow-y: auto !important;
                       overflow-x: hidden !important;
-                      height: 100vh;
+                      height: 100dvh;
                       width: 100vw;
                       position: absolute;
                       top: 0;
@@ -536,7 +536,7 @@ const styles = {
     top: 0,
     left: 0,
     width: '100%',
-    height: '100vh',
+    height: '100dvh',
     pointerEvents: 'none' as const,
     color: '#fff',
   },

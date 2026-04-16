@@ -12,7 +12,7 @@ const styles = {
   container: {
     display: 'flex',
     flexDirection: 'column' as const,
-    minHeight: '100vh',
+    minHeight: '100dvh',
     backgroundColor: '#451eff',
   },
 };

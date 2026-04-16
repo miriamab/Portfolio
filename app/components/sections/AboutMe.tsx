@@ -17,7 +17,7 @@ export default function AboutMe() {
           position: absolute;
           top: 0;
           left: 0;
-          height: 100vh;
+          height: 100dvh;
           width: 100vw;
           display: flex;
           background: #451eff;

@@ -252,7 +252,7 @@ export default function DotGrid() {
         top: 0,
         left: 0,
         width: "100%",
-        height: "100vh",
+        height: "100dvh",
         pointerEvents: "none",
         zIndex: 0,
         display: isProjectSingleView ? "none" : "block",

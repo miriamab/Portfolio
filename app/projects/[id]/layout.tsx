@@ -4,7 +4,7 @@ export default function ProjectLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div style={{ position: "relative", zIndex: 100, backgroundColor: "#ffffff", minHeight: "100vh" }}>
+    <div style={{ position: "relative", zIndex: 100, backgroundColor: "#ffffff", minHeight: "100dvh" }}>
       {children}
     </div>
   );

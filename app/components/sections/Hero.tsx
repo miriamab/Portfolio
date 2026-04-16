@@ -235,14 +235,14 @@ export default function Hero() {
           transition: transform 0.6s cubic-bezier(0.85, 0, 0.15, 1);
         }
         .hero-content-wrapper.leaving-up {
-          transform: translateY(-100vh);
+          transform: translateY(-100dvh);
         }
         .hero-content-wrapper.entering-down {
           animation: dropDown 0.6s cubic-bezier(0.85, 0, 0.15, 1) forwards;
         }
 
         @keyframes dropDown {
-          0% { transform: translateY(-100vh); }
+          0% { transform: translateY(-100dvh); }
           100% { transform: translateY(0); }
         }
       `}</style>
@@ -259,7 +259,7 @@ export default function Hero() {
 
 const styles = {
   section: {
-    minHeight: '100vh',
+    minHeight: '100dvh',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

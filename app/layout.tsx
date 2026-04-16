@@ -7,9 +7,6 @@ import OverscrollBackground from "./components/OverscrollBackground";
 export const metadata: Metadata = {
   title: "Portfolio",
   description: "Miriam Abbas - Portfolio",
-  icons: {
-    icon: "/favicon.svg",
-  },
 };
 
 export default function RootLayout({
@@ -21,7 +18,7 @@ export default function RootLayout({
     <html lang="de">
       <body>
         <OverscrollBackground />
-        <div style={{ position: 'relative', minHeight: '100vh' }}>
+        <div style={{ position: 'relative', minHeight: '100dvh' }}>
           <DotGrid />
           {children}
         </div>

@@ -208,7 +208,7 @@ const styles = {
     top: 0,
     left: 0,
     width: '100%',
-    minHeight: '100vh',
+    minHeight: '100dvh',
     backgroundColor: '#451eff',
     display: 'flex',
     justifyContent: 'center',

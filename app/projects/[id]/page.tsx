@@ -90,7 +90,7 @@ export default async function ProjectDetail({
   ];
 
   return (
-    <div style={{ backgroundColor: "#ffffff", minHeight: "100vh", position: "relative", zIndex: 10, width: "100%", overflowX: "hidden" }}>
+    <div style={{ backgroundColor: "#ffffff", minHeight: "100dvh", position: "relative", zIndex: 10, width: "100%", overflowX: "hidden" }}>
       
       {/* Fixed X Button */}
       <Link 
